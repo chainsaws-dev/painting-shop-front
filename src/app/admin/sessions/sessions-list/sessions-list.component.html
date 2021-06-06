@@ -22,7 +22,7 @@
         <div class="input-group">
           <p class="p-2 m-0 flex-grow-1" style="place-items: center;"> {{ Session.Email +' '+ Session.IP }}</p>
           <div class="input-group-append">
-            <button class="btn btn-outline-success" type="button" [routerLink]="i">Edit</button>
+            <button class="btn btn-outline-success" type="button" [routerLink]="i.toString()">Edit</button>
             <button class="btn btn-outline-danger" type="button" (click)="OnDeleteSession(Session, i)">Delete</button>
           </div>
         </div>

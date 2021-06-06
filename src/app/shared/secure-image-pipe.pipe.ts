@@ -17,7 +17,7 @@ export class SecureImagePipe implements PipeTransform {
   async transform(src: string): Promise<string> {
     const token = this.auth.GetUserToken();
     const headers = new HttpHeaders({
-      Auth: token,
+      Auth: token ?? "",
     ApiKey: environment.ApiKey});
 
     try {

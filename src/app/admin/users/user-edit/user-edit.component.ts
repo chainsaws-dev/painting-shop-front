@@ -14,21 +14,21 @@ import { ErrorResponse } from '../../../shared/shared.model';
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 
-  editmode: boolean;
-  index: number;
-  UserToEdit: User;
+  editmode: boolean = false;
+  index!: number;
+  UserToEdit!: User;
 
-  IsLoading: boolean;
+  IsLoading: boolean = false;
 
-  changepassword: boolean;
+  changepassword: boolean = false;
 
-  private DatabaseUpdated: Subscription;
-  private DataLoading: Subscription;
-  private RecivedErrorSub: Subscription;
+  private DatabaseUpdated: Subscription = new Subscription;
+  private DataLoading: Subscription = new Subscription;
+  private RecivedErrorSub: Subscription = new Subscription;
 
-  ShowMessage: boolean;
-  MessageType: string;
-  ResponseFromBackend: ErrorResponse;
+  ShowMessage: boolean = false;
+  MessageType!: string;
+  ResponseFromBackend!: ErrorResponse;
 
   constructor(
     private AdminServ: UsersService,

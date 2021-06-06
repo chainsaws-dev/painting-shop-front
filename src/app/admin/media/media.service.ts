@@ -13,8 +13,8 @@ export class MediaService {
   FilesDeleted = new Subject<void>();
   FilesChanged = new Subject<FiLe>();
 
-  CurrentSelectedItem: FiLe;
-  Total: number;
+  CurrentSelectedItem!: FiLe;
+  Total!: number;
 
 
   private Files: FiLe[] = [];

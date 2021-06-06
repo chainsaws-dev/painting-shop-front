@@ -14,21 +14,21 @@ import { MediaService } from '../media.service';
 })
 export class MediaListComponent implements OnInit, OnDestroy {
 
-  private PageChanged: Subscription;
-  private FetchOnInint: Subscription;
-  private DataLoading: Subscription;
+  private PageChanged: Subscription = new Subscription;
+  private FetchOnInint: Subscription = new Subscription;
+  private DataLoading: Subscription = new Subscription;
 
-  mePageSize: number;
-  meCollectionSize: number;
-  meCurrentPage: number;
-  IsLoading: boolean;
+  mePageSize!: number;
+  meCollectionSize!: number;
+  meCurrentPage!: number;
+  IsLoading: boolean = false;
 
-  ShowMessage: boolean;
-  MessageType: string;
-  ResponseFromBackend: ErrorResponse;
-  RecivedErrorSub: Subscription;
+  ShowMessage: boolean = false;
+  MessageType!: string;
+  ResponseFromBackend!: ErrorResponse;
+  RecivedErrorSub: Subscription = new Subscription;
 
-  Files: FiLe[];
+  Files: FiLe[] = [];
 
   constructor(
     private ActiveRoute: ActivatedRoute,

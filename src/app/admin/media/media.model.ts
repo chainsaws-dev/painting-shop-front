@@ -17,8 +17,8 @@ export class FiLe {
 }
 
 export class FilesResponse {
-  public Files: FiLe[];
-  public Total: number;
-  public Offset: number;
-  public Limit: number;
+  public Files: FiLe[] = [];
+  public Total!: number;
+  public Offset!: number;
+  public Limit!: number;
 }

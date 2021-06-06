@@ -13,8 +13,8 @@ export class UsersService {
   UsersDeleted = new Subject<void>();
   UsersChanged = new Subject<User>();
 
-  CurrentSelectedItem: User;
-  Total: number;
+  CurrentSelectedItem!: User;
+  Total!: number;
 
 
   private Users: User[] = [];

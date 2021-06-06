@@ -14,33 +14,33 @@ import { ErrorResponse } from '../shared/shared.model';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  index: number;
+  index!: number;
 
-  UserToEdit: User;
+  UserToEdit!: User;
 
-  TwoFactorEnabled: boolean;
+  TwoFactorEnabled: boolean = false;
 
-  SetTwoFactor: boolean;
+  SetTwoFactor: boolean = false;
 
-  IsLoading: boolean;
-  changepassword: boolean;
+  IsLoading: boolean = false;
+  changepassword: boolean = false;
 
-  AuthUrl: string;
-  QrUrl: string;
+  AuthUrl!: string;
+  QrUrl!: string;
 
 
 
-  private DataLoading: Subscription;
-  private RecivedErrorSub: Subscription;
+  private DataLoading: Subscription = new Subscription;
+  private RecivedErrorSub: Subscription = new Subscription;
 
-  private FetchUser: Subscription;
-  private SaveUser: Subscription;
+  private FetchUser: Subscription = new Subscription;
+  private SaveUser: Subscription = new Subscription;
 
-  private LinkUnlinkTFA: Subscription;
+  private LinkUnlinkTFA: Subscription = new Subscription;
 
-  ShowMessage: boolean;
-  MessageType: string;
-  ResponseFromBackend: ErrorResponse;
+  ShowMessage: boolean = false;
+  MessageType!: string;
+  ResponseFromBackend!: ErrorResponse;
 
   constructor(
     private activatedroute: ActivatedRoute,

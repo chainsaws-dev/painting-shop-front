@@ -15,11 +15,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   LoggedIn = false;
   SecondFactor = false;
 
-  UserEmail: string;
-  UserAdmin: boolean;
+  UserEmail: string = "";
+  UserAdmin: boolean = false;
 
-  private LoginSub: Subscription;
-  private SecondFactorSub: Subscription;
+  private LoginSub: Subscription = new Subscription;
+  private SecondFactorSub: Subscription = new Subscription;
 
   constructor(
     private auth: AuthService,
@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.LoggedIn = this.auth.CheckRegistered();
-    this.UserEmail = this.auth.GetUserEmail();
+    this.LoggedIn = this.auth.CheckRegistered() ?? false;
+    this.UserEmail = this.auth.GetUserEmail() ?? "";
     this.UserAdmin = this.auth.CheckIfUserIsAdmin();
     if (!this.auth.HaveToCheckSecondFactor()) {
       this.SecondFactor = true;
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (!this.auth.HaveToCheckSecondFactor()) {
         this.SecondFactor = true;
       }
-      this.UserEmail = this.auth.GetUserEmail();
+      this.UserEmail = this.auth.GetUserEmail() ?? "";
       this.UserAdmin = this.auth.CheckIfUserIsAdmin();
     });
 

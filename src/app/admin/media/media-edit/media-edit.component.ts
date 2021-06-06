@@ -14,22 +14,22 @@ import { MediaService } from '../media.service';
 })
 export class MediaEditComponent implements OnInit, OnDestroy {
 
-  editmode: boolean;
-  index: number;
-  FileToEdit: FiLe;
+  editmode: boolean = false;
+  index!: number;
+  FileToEdit!: FiLe;
 
-  IsLoading: boolean;
+  IsLoading: boolean = false;
   CurPercentStyle = 'width: 0%';
 
-  private DataLoading: Subscription;
-  private RecivedErrorSub: Subscription;
+  private DataLoading: Subscription = new Subscription;
+  private RecivedErrorSub: Subscription = new Subscription;
 
-  FileProgress: Subscription;
-  FileUploaded: Subscription;
+  FileProgress: Subscription = new Subscription;
+  FileUploaded: Subscription = new Subscription;
 
-  ShowMessage: boolean;
-  MessageType: string;
-  ResponseFromBackend: ErrorResponse;
+  ShowMessage: boolean = false;
+  MessageType!: string;
+  ResponseFromBackend!: ErrorResponse;
 
   constructor(
     private MediaServ: MediaService,
@@ -100,7 +100,7 @@ export class MediaEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  onFileInput(event) {
+  onFileInput(event: any) {
     this.CurPercentStyle = 'width: 0%';
     const FileToUpload = event.target.files[0] as File;
     this.datastore.FileUpload(FileToUpload);

@@ -15,21 +15,21 @@ import { SessionsService } from '../sessions.service';
 })
 export class SessionsListComponent implements OnInit, OnDestroy {
 
-  private PageChanged: Subscription;
-  private FetchOnInint: Subscription;
-  private DataLoading: Subscription;
+  private PageChanged!: Subscription;
+  private FetchOnInint!: Subscription;
+  private DataLoading!: Subscription;
 
-  sesCurrentPage: number;
-  sesPageSize: number;
-  sesCollectionSize: number;
-  IsLoading: boolean;
+  sesCurrentPage!: number;
+  sesPageSize!: number;
+  sesCollectionSize!: number;
+  IsLoading!: boolean;
 
-  ShowMessage: boolean;
-  MessageType: string;
-  ResponseFromBackend: ErrorResponse;
-  RecivedErrorSub: Subscription;
+  ShowMessage!: boolean;
+  MessageType!: string;
+  ResponseFromBackend!: ErrorResponse;
+  RecivedErrorSub!: Subscription;
 
-  Sessions: Session[];
+  Sessions!: Session[];
 
   constructor(
     private ActiveRoute: ActivatedRoute,

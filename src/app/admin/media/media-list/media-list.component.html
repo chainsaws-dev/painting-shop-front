@@ -13,7 +13,7 @@
         <img [src]="f.PreviewID" [alt]="f.Filename">
       </a>
       <div class="media-box-overlay">
-        <button class="btn btn-outline-success" type="button" [routerLink]="i">Edit</button>
+        <button class="btn btn-outline-success" type="button" [routerLink]="i.toString()">Edit</button>
         <button class="btn btn-outline-danger" type="button" (click)="OnDeleteFile(f, i)">Delete</button>
       </div>
     </div>

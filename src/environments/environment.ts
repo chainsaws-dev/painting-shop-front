@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  PageTitle: "Paintings shop",
   AdminUserListPageSize: 11,
   SessionsListPageSize: 11,
   MediaListPageSize: 12,

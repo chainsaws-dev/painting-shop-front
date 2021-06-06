@@ -15,13 +15,13 @@ export class AuthComponent implements OnInit, OnDestroy {
   LoginMode = true;
   IsLoading = false;
 
-  loggedIn: boolean;
-  private authErrSub: Subscription;
-  private loginResultSub: Subscription;
+  loggedIn: boolean = false;
+  private authErrSub: Subscription = new Subscription;
+  private loginResultSub: Subscription = new Subscription;
 
-  ResponseFromBackend: ErrorResponse;
-  ShowMessage: boolean;
-  MessageType: string;
+  ResponseFromBackend!: ErrorResponse;
+  ShowMessage: boolean = false;
+  MessageType!: string;
 
   constructor(private authservice: AuthService,
               private router: Router) { }

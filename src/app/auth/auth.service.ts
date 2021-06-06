@@ -11,16 +11,16 @@ import { ErrorResponse } from '../shared/shared.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private authData: AuthResponseData = null;
+  private authData!: AuthResponseData;
   private autoRefreshToken: any;
 
   public AuthErrorSub = new Subject<ErrorResponse>();
   public AuthResultSub = new Subject<boolean>();
-  private authObs: Observable<AuthResponseData>;
+  private authObs!: Observable<AuthResponseData>;
 
   public SfErrorSub = new Subject<ErrorResponse>();
   public SfResultSub = new Subject<boolean>();
-  private SecFactorObs: Observable<ErrorResponse>;
+  private SecFactorObs!: Observable<ErrorResponse>;
 
 
   constructor(
@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   SignOut() {
-    this.authData = null;
+    this.authData = {} as AuthResponseData;
     if (this.autoRefreshToken) {
       clearTimeout(this.autoRefreshToken);
     }
@@ -114,7 +114,7 @@ export class AuthService {
     } else {
       this.authData = JSON.parse(userData);
 
-      const ExpDur = new Date(this.authData.ExpirationDate).getTime() -
+      const ExpDur = new Date(this.authData.ExpirationDate ?? "").getTime() -
         new Date().getTime();
 
       this.AuthResultSub.next(true);
@@ -178,7 +178,7 @@ export class AuthService {
 
   CheckTokenExpired() {
     if (this.authData.ExpirationDate !== '' && this.authData.ExpirationDate !== null) {
-      return !(new Date() > new Date(this.authData.ExpirationDate));
+      return !(new Date() > new Date(this.authData.ExpirationDate ?? ""));
     }
     else {
       return false;

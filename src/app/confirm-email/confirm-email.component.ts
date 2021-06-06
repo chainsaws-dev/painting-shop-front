@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
 import { ActivatedRoute, Router, Params, UrlSegment } from '@angular/router';
-import * as url from 'url';
 
 @Component({
   selector: 'app-confirm-email',
@@ -15,18 +14,18 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
   IsLoading = false;
 
-  ResponseFromBackend: ErrorResponse;
+  ResponseFromBackend!: ErrorResponse;
 
-  ShowMessage: boolean;
-  MessageType: string;
+  ShowMessage: boolean = false;
+  MessageType!: string;
 
-  RecivedErrorSub: Subscription;
-  RecivedResponseSub: Subscription;
-  DataServiceSub: Subscription;
+  RecivedErrorSub: Subscription = new Subscription;
+  RecivedResponseSub: Subscription = new Subscription;
+  DataServiceSub: Subscription = new Subscription;
 
-  Token: string;
+  Token!: string;
 
-  ResetPasswordMode: boolean;
+  ResetPasswordMode: boolean = false;
 
   constructor(
     private DataServ: DataStorageService,

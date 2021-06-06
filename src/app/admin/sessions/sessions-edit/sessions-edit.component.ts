@@ -15,18 +15,18 @@ import { SessionsService } from '../sessions.service';
 export class SessionsEditComponent implements OnInit, OnDestroy {
 
 
-  editmode: boolean;
-  index: number;
-  SessionToEdit: Session;
+  editmode: boolean = false;
+  index!: number;
+  SessionToEdit: Session = new Session;
 
-  IsLoading: boolean;
+  IsLoading: boolean = false;
 
-  private DataLoading: Subscription;
-  private RecivedErrorSub: Subscription;
+  private DataLoading: Subscription = new Subscription;
+  private RecivedErrorSub: Subscription = new Subscription;
 
-  ShowMessage: boolean;
-  MessageType: string;
-  ResponseFromBackend: ErrorResponse;
+  ShowMessage: boolean = false;
+  MessageType!: string;
+  ResponseFromBackend!: ErrorResponse;
 
   constructor(
     private SessServ: SessionsService,
