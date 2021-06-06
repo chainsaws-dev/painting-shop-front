@@ -1,0 +1,32 @@
+<div *ngIf="!IsLoading">
+  <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
+    {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+  <div class="input-group ml-3">
+    <div class="input-group-prepend mt-2">
+      <button class="btn btn-outline-primary" [routerLink]="['/admin/media',meCurrentPage,'new']"
+      queryParamsHandling="merge">Add</button>
+    </div>
+  </div>
+  <div class="parent-media-box">
+    <div class="media-box" *ngFor="let f of Files; let i=index">
+      <a [href]="f.FileID">
+        <img [src]="f.PreviewID" [alt]="f.Filename">
+      </a>
+      <div class="media-box-overlay">
+        <button class="btn btn-outline-success" type="button" [routerLink]="i">Edit</button>
+        <button class="btn btn-outline-danger" type="button" (click)="OnDeleteFile(f, i)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="ml-3">
+    <ngb-pagination *ngIf="meCollectionSize>mePageSize" [collectionSize]="meCollectionSize" [pageSize]="mePageSize"
+      [page]="meCurrentPage" [rotate]="true" [boundaryLinks]="true" [maxSize]="11" (pageChange)="OnPageChanged($event)">
+    </ngb-pagination>
+  </div>
+</div>
+<div class="text-center">
+  <div class="spinner-border" role="status" *ngIf="IsLoading">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<!-- auto fill - чтобы заполняло - auto fit - чтобы растягивало -->

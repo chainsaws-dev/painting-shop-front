@@ -1,0 +1,39 @@
+<div class="row" *ngIf="!IsLoading">
+  <div class="col">
+
+    <div class="input-group mb-1">
+      <div class="input-group-prepend mt-1">
+        <button class="btn btn-outline-primary" [routerLink]="['/admin/users',usCurrentPage,'new']"
+          queryParamsHandling="merge">Add</button>
+      </div>
+    </div>
+
+    <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
+      {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+    <ul class="list-group mb-1">
+
+      <li style="cursor: pointer;"
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+        [ngClass]="AdminServ.IsCurrentSelected(User) ? 'active' : ''" *ngFor="let User of Users; let i=index"
+        (click)="AdminServ.SelectItemUsersList(User)">
+
+        <div class="input-group">
+          <p class="p-2 m-0 flex-grow-1" style="place-items: center;"> {{ User.Email }}</p>
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" type="button" [routerLink]="i">Edit</button>
+            <button class="btn btn-outline-danger" type="button" (click)="OnDeleteUser(User, i)">Delete</button>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+    <ngb-pagination *ngIf="usCollectionSize>usPageSize" [collectionSize]="usCollectionSize" [pageSize]="usPageSize"
+      [page]="usCurrentPage" [rotate]="true" [boundaryLinks]="true" [maxSize]="11" (pageChange)="OnPageChanged($event)">
+    </ngb-pagination>
+  </div>
+</div>
+<div class="text-center">
+  <div class="spinner-border" role="status" *ngIf="IsLoading">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

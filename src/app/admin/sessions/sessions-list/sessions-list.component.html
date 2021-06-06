@@ -1,0 +1,42 @@
+<div class="row" *ngIf="!IsLoading">
+  <div class="col">
+
+    <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
+      {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+
+    <form class="mt-1 mb-1" #DelSesByEmailForm="ngForm" (ngSubmit)="OnDeleteSessionByEmail(DelSesByEmailForm)">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="exampe@example.com" class="form-control mb-1" name="useremail" ngModel required email>
+        <button class="btn btn-outline-danger" type="submit">Delete</button>
+      </div>
+    </form>
+
+    <ul class="list-group mb-1">
+
+      <li style="cursor: pointer;"
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+        [ngClass]="SessServ.IsCurrentSelected(Session) ? 'active' : ''" *ngFor="let Session of Sessions; let i=index"
+        (click)="SessServ.SelectItemSessionsList(Session)">
+
+        <div class="input-group">
+          <p class="p-2 m-0 flex-grow-1" style="place-items: center;"> {{ Session.Email +' '+ Session.IP }}</p>
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" type="button" [routerLink]="i">Edit</button>
+            <button class="btn btn-outline-danger" type="button" (click)="OnDeleteSession(Session, i)">Delete</button>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+    <ngb-pagination *ngIf="sesCollectionSize>sesPageSize" [collectionSize]="sesCollectionSize" [pageSize]="sesPageSize"
+      [page]="sesCurrentPage" [rotate]="true" [boundaryLinks]="true" [maxSize]="11"
+      (pageChange)="OnPageChanged($event)">
+    </ngb-pagination>
+  </div>
+</div>
+<div class="text-center">
+  <div class="spinner-border" role="status" *ngIf="IsLoading">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

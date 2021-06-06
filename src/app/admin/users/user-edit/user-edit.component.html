@@ -1,0 +1,62 @@
+<div class="text-center">
+  <div class="spinner-border" role="status" *ngIf="IsLoading">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
+  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+<form #UserEditForm="ngForm" (ngSubmit)="OnSaveClick(UserEditForm)" *ngIf="UserToEdit">
+  <div class="form-group">
+    <div style="margin: 3px;">
+      <h2 *ngIf="editmode">Edit</h2>
+      <h2 *ngIf="!editmode">Create</h2>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="example" class="form-control mb-1" name="username"
+          [ngModel]="UserToEdit.Name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="exampe@example.com" class="form-control mb-1" name="useremail"
+          [ngModel]="UserToEdit.Email" required email>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="+7 (965) 777-77-77" class="form-control mb-1" name="userphone"
+          [ngModel]="UserToEdit.Phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3,4}\)?[\- ]?)?[\d\- ]{5,10}$">
+      </div>
+
+      <div class="form-group">
+        <label for="roles">Select role:</label>
+        <select class="form-control" name="roles" id="roles" [ngModel]="UserToEdit.Role" required>
+          <option value="guest_role_read_only">Guest</option>
+          <option value="admin_role_CRUD">Admin</option>
+        </select>
+      </div>
+
+      <label for="newpassword">Password</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" id="changepassword" name="changepassword" [(ngModel)]="changepassword">
+          </div>
+        </div>
+        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter new password"
+          [disabled]="!changepassword" ngModel>
+      </div>
+
+      <div class="form-group">
+        <mat-slide-toggle class="mat-margin" color="primary" name="disabled" [(ngModel)]="UserToEdit.Disabled">
+          Disabled
+        </mat-slide-toggle>
+      </div>
+
+      <button class="btn btn-outline-primary" type="submit" [disabled]="UserEditForm.invalid">Save</button>
+      <button class="btn btn-outline-danger" type="button" routerLink=".." style="margin-left: 3px;">Cancel</button>
+
+    </div>
+  </div>
+</form>

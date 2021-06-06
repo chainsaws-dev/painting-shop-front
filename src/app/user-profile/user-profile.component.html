@@ -1,0 +1,94 @@
+<div class="text-center">
+  <div class="spinner-border" role="status" *ngIf="IsLoading">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
+  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+
+<form #UserProfileForm="ngForm" (ngSubmit)="OnSaveClick(UserProfileForm)" *ngIf="UserToEdit">
+  <div class="form-group">
+    <div style="margin: 3px;">
+      <h2>Profile</h2>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="example" class="form-control mb-1" name="username"
+          [ngModel]="UserToEdit.Name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="exampe@example.com" class="form-control mb-1" name="useremail"
+          [ngModel]="UserToEdit.Email" required email>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="+7 (965) 777-77-77" class="form-control mb-1" name="userphone"
+          [ngModel]="UserToEdit.Phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3,4}\)?[\- ]?)?[\d\- ]{5,10}$">
+      </div>
+
+      <label for="newpassword">Password</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" id="changepassword" name="changepassword" [(ngModel)]="changepassword">
+          </div>
+        </div>
+        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter new password"
+          [disabled]="!changepassword" ngModel>
+      </div>
+
+      <button class="btn btn-outline-primary" type="submit" [disabled]="UserProfileForm.invalid">Save</button>
+      <button class="btn btn-outline-danger" type="button" routerLink=".." style="margin-left: 3px;">Cancel</button>
+
+    </div>
+  </div>
+</form>
+
+<div class="form-group" *ngIf="UserToEdit && TwoFactorEnabled">
+  <h2>Second factor enabled</h2>
+  <button class="btn btn-outline-danger" type="button" (click)="OnUnlinkTwoFactor()">Disable</button>
+</div>
+
+<form #UserTwoFactorForm="ngForm" (ngSubmit)="OnLinkTwoFactor(UserTwoFactorForm)"
+  *ngIf="UserToEdit && !TwoFactorEnabled">
+  <div class="form-group">
+    <div style="margin: 3px;">
+      <h2>Set second factor</h2>
+
+      <h4>1. Scan with <a
+          [href]="AuthUrl">Authenticator</a>:
+      </h4>
+
+      <img [src]="QrUrl | secureImagePipe | async" alt="QR code">
+
+      <h4>2. Enter the token:</h4>
+      <label for="newpassword">Token</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" id="enabletwofactor" name="enabletwofactor" [(ngModel)]="SetTwoFactor" required>
+          </div>
+        </div>
+        <input
+        type="text"
+        name="passkey"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        autocomplete="one-time-code"
+        class="form-control"
+        id="newpasskey"
+        placeholder="Token from Authenticator"
+        [disabled]="!SetTwoFactor"
+        ngModel
+        required
+        minlength='6'
+        ngbTooltip="Minimum 6 numbers">
+      </div>
+
+      <button class="btn btn-outline-primary" type="submit">Save</button>
+    </div>
+  </div>
+</form>

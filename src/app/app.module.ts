@@ -1,18 +1,38 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+
+import { NgbAlertModule, NgbTooltipModule, NgbPaginationModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
+
+import { SharedModule } from './shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    NgbTooltipModule,
+    NgbDropdownModule,
+    NgbPaginationModule,
+    NgbAlertModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    SharedModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
