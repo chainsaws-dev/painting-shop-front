@@ -79,7 +79,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.ShowMessage = true;
         if (response) {
           if (response.Error) {
-            this.Message = response.Error.Message;
+            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
           } else {
             this.Message = "";
           }
