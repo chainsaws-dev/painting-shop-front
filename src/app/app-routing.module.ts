@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/recipes/1', pathMatch: 'full' },
+  { path: '', redirectTo: '/admin', pathMatch: 'full' },
  // { path: 'artworks', loadChildren: () => import('./recipes/artworks.module').then(m => m.ArtworksModule) },
  // { path: 'references', loadChildren: () => import('./shopping-list/references.module').then(m => m.ReferencesModule) },
  // { path: 'references', loadChildren: () => import('./shopping-list/references.module').then(m => m.ReferencesModule) },

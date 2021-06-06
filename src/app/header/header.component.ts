@@ -3,7 +3,7 @@ import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +27,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    if (environment.NoAuthGuard) {
+      this.LoggedIn = true;
+      this.SecondFactor = true;
+      this.UserAdmin = true;
+      return;
+    }
+
     this.LoggedIn = this.auth.CheckRegistered() ?? false;
     this.UserEmail = this.auth.GetUserEmail() ?? "";
     this.UserAdmin = this.auth.CheckIfUserIsAdmin();

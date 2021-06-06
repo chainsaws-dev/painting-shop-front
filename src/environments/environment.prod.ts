@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  NoAuthGuard: false,
   AdminUserListPageSize: 11,
   SessionsListPageSize: 11,
   MediaListPageSize: 12,

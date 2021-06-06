@@ -145,7 +145,7 @@ export class AuthService {
   }
 
   CheckRegistered() {
-    if (this.authData !== null) {
+    if (this.authData !== null && this.authData !== undefined) {
       if (this.authData.SecondFactor.Enabled === true) {
         return this.authData.SecondFactor.CheckResult && this.authData.Registered;
       } else {

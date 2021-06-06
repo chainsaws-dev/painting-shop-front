@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  NoAuthGuard: true,
   PageTitle: "Paintings shop",
   AdminUserListPageSize: 11,
   SessionsListPageSize: 11,
