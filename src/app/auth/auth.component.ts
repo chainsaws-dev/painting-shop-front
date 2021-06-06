@@ -94,7 +94,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   Redirect() {
-    this.router.navigate(['/recipes']);
+    this.router.navigate(['/admin']);
   }
 
   GoToSecondFactor() {

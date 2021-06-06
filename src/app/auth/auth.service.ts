@@ -145,7 +145,7 @@ export class AuthService {
   }
 
   CheckRegistered() {
-    if (this.authData !== null && this.authData !== undefined) {
+    if (this.authData) {
       if (this.authData.SecondFactor.Enabled === true) {
         return this.authData.SecondFactor.CheckResult && this.authData.Registered;
       } else {
@@ -157,7 +157,7 @@ export class AuthService {
   }
 
   CheckFirstFactorPassed() {
-    if (this.authData !== null && this.authData !== undefined) {
+    if (this.authData) {
       return this.authData.Registered;
     } else {
       return false;
@@ -165,7 +165,7 @@ export class AuthService {
   }
 
   HaveToCheckSecondFactor() {
-    if (this.authData !== null && this.authData !== undefined) {
+    if (this.authData) {
       if (this.authData.SecondFactor.Enabled) {
         return !this.authData.SecondFactor.CheckResult;
       } else {
@@ -177,7 +177,7 @@ export class AuthService {
   }
 
   CheckTokenExpired() {
-    if (this.authData !== null && this.authData !== undefined) {
+    if (this.authData) {
       if (this.authData.ExpirationDate !== '' && this.authData.ExpirationDate !== null) {
         return !(new Date() > new Date(this.authData.ExpirationDate ?? ""));
       }

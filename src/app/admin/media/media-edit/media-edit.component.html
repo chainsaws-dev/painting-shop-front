@@ -14,7 +14,7 @@
       <div *ngIf="!FileToEdit.FileID" class="image-placeholder mx-auto">
         <h4>592x333</h4>
       </div>
-      <a [href]="FileToEdit.FileID"><img *ngIf="FileToEdit.FileID" [src]="FileToEdit.FileID" [alt]="FileToEdit.Filename" class="rounded d-block mx-auto"
+      <a [href]="FileToEdit.FileID"><img *ngIf="FileToEdit.FileID" [src]="FileToEdit.FileID" [alt]="FileToEdit.FileName" class="rounded d-block mx-auto"
         style="margin: 3px; max-width: 500px; max-height: 333px; max-width: 100%;"></a>
       <button type="button" class="btn btn-outline-primary" style="margin: 3px;" (click)="fileInput.click()" [disabled]="editmode">
         <span>Upload image</span>
@@ -29,19 +29,19 @@
       <div class="form-group">
         <label for="name">File name</label>
         <input type="text" id="fname" placeholder="placeholder.jpg" class="form-control mb-1" name="filename"
-          [ngModel]="FileToEdit.Filename" required [disabled]="true">
+          [ngModel]="FileToEdit.FileName" required [disabled]="true">
       </div>
 
       <div class="form-group">
         <label for="name">File size</label>
         <input type="text" id="fsize" placeholder="0" class="form-control mb-1" name="filesize"
-          [ngModel]="FileToEdit.Filesize" required [disabled]="true">
+          [ngModel]="FileToEdit.FileSize" required [disabled]="true">
       </div>
 
       <div class="form-group">
         <label for="name">File type</label>
         <input type="text" id="ftype" placeholder="jpg" class="form-control mb-1" name="filetype"
-          [ngModel]="FileToEdit.Filetype" required [disabled]="true">
+          [ngModel]="FileToEdit.FileType" required [disabled]="true">
       </div>
 
       <div class="form-group">

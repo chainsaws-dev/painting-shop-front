@@ -59,7 +59,7 @@ export class MediaService {
 
   AddNewFile(f: FiLe) {
 
-    const nf = new FiLe(f.Filename, f.Filesize, f.Filetype, f.FileID, f.PreviewID, f.ID);
+    const nf = new FiLe(f.FileName, f.FileSize, f.FileType, f.FileID, f.PreviewID, f.ID);
 
     if (this.Files.length < environment.AdminUserListPageSize) {
       this.Files.push(nf);

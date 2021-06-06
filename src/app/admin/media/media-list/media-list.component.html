@@ -10,7 +10,7 @@
   <div class="parent-media-box">
     <div class="media-box" *ngFor="let f of Files; let i=index">
       <a [href]="f.FileID">
-        <img [src]="f.PreviewID" [alt]="f.Filename">
+        <img [src]="f.PreviewID" [alt]="f.FileName">
       </a>
       <div class="media-box-overlay">
         <button class="btn btn-outline-success" type="button" [routerLink]="i.toString()">Edit</button>

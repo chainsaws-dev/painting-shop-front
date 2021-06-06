@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/profile', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
  // { path: 'artworks', loadChildren: () => import('./artworks/artworks.module').then(m => m.ArtworksModule) },
  // { path: 'references', loadChildren: () => import('./references/references.module').then(m => m.ReferencesModule) },
   { path: 'auth', loadChildren: () => import('./auth/auth-feature.module').then(m => m.AuthFeatureModule) },
