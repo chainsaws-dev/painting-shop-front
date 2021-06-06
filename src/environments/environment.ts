@@ -3,7 +3,25 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  AdminUserListPageSize: 11,
+  SessionsListPageSize: 11,
+  MediaListPageSize: 12,
+  ApiKey: 'AIzaSyB3Jr8tp5wotjeS-re9iBSgX2b1zbM0Fx4',
+  ConfirmEmailUrl: '/api/ConfirmEmail',
+  ResendEmailUrl: '/api/ConfirmEmail/Send',
+  ResetPasswordUrl: '/api/PasswordReset',
+  SendEmailResetPassUrl: '/api/PasswordReset/Send',
+  SignUpUrl: '/api/Accounts/SignUp',
+  SignInUrl: '/api/Accounts/SignIn',
+  GetSetFileUrl: '/api/Files',
+  GetSetUsersUrl: '/api/Users',
+  GetSetCurrentUserUrl: '/api/Users/Current',
+  GetSetSessionsUrl: '/api/Sessions',
+  GetTOTPQRCodeUrl: '/api/TOTP/Qr.png',
+  TOTPSettingsUrl: '/api/TOTP/Settings',
+  TOTPCheckUrl: '/api/TOTP/Check',
+  GetAuthenticatorUrl: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2',
 };
 
 /*
