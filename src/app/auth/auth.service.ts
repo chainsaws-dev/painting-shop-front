@@ -166,11 +166,15 @@ export class AuthService {
 
   HaveToCheckSecondFactor() {
     if (this.authData) {
+      if (this.authData.SecondFactor) {
       if (this.authData.SecondFactor.Enabled) {
         return !this.authData.SecondFactor.CheckResult;
       } else {
         return false;
       }
+    } else  {
+      return false;
+    }
     } else {
       return true;
     }
