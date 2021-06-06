@@ -157,7 +157,7 @@ export class AuthService {
   }
 
   CheckFirstFactorPassed() {
-    if (this.authData !== null) {
+    if (this.authData !== null && this.authData !== undefined) {
       return this.authData.Registered;
     } else {
       return false;
@@ -165,7 +165,7 @@ export class AuthService {
   }
 
   HaveToCheckSecondFactor() {
-    if (this.authData !== null) {
+    if (this.authData !== null && this.authData !== undefined) {
       if (this.authData.SecondFactor.Enabled) {
         return !this.authData.SecondFactor.CheckResult;
       } else {
@@ -177,11 +177,15 @@ export class AuthService {
   }
 
   CheckTokenExpired() {
-    if (this.authData.ExpirationDate !== '' && this.authData.ExpirationDate !== null) {
-      return !(new Date() > new Date(this.authData.ExpirationDate ?? ""));
-    }
-    else {
-      return false;
+    if (this.authData !== null && this.authData !== undefined) {
+      if (this.authData.ExpirationDate !== '' && this.authData.ExpirationDate !== null) {
+        return !(new Date() > new Date(this.authData.ExpirationDate ?? ""));
+      }
+      else {
+        return false;
+      }
+    } else {
+      return true;
     }
   }
 

@@ -9,7 +9,7 @@
     </div>
 
     <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-      {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+      {{ Message }}</ngb-alert>
     <ul class="list-group mb-1">
 
       <li style="cursor: pointer;"

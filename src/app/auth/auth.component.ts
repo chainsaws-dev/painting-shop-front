@@ -19,12 +19,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   private authErrSub: Subscription = new Subscription;
   private loginResultSub: Subscription = new Subscription;
 
-  ResponseFromBackend!: ErrorResponse;
+  Message!: string;
   ShowMessage: boolean = false;
   MessageType!: string;
 
   constructor(private authservice: AuthService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     if (this.authservice.CheckRegistered()) {
@@ -32,11 +32,19 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     this.authErrSub = this.authservice.AuthErrorSub.subscribe((response: ErrorResponse) => {
+
       this.ShowMessage = true;
-      this.ResponseFromBackend = response;
-      setTimeout(() => this.ShowMessage = false, 5000);
 
       if (response) {
+
+        if (response.Error) {
+          this.Message = response.Error.Message;
+        } else {
+          this.Message = "";
+        }
+
+        setTimeout(() => this.ShowMessage = false, 5000);
+
         switch (response.Error.Code) {
           case 200:
             this.MessageType = 'success';

@@ -1,6 +1,6 @@
 <div *ngIf="!IsLoading">
   <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-    {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+    {{ Message }}</ngb-alert>
   <div class="input-group ml-3">
     <div class="input-group-prepend mt-2">
       <button class="btn btn-outline-primary" [routerLink]="['/admin/media',meCurrentPage,'new']"

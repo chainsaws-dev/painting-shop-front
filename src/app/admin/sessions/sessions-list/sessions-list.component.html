@@ -2,7 +2,7 @@
   <div class="col">
 
     <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-      {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+      {{ Message }}</ngb-alert>
 
     <form class="mt-1 mb-1" #DelSesByEmailForm="ngForm" (ngSubmit)="OnDeleteSessionByEmail(DelSesByEmailForm)">
       <div class="form-group">

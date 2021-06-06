@@ -25,7 +25,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
 
   ShowMessage: boolean = false;
   MessageType!: string;
-  ResponseFromBackend!: ErrorResponse;
+  Message!: string;
   RecivedErrorSub: Subscription = new Subscription;
 
   Files: FiLe[] = [];
@@ -51,10 +51,16 @@ export class MediaListComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
-        this.ResponseFromBackend = response;
-        setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
+          if (response.Error) {
+            this.Message = response.Error.Message;
+          } else {
+            this.Message = "";
+          }
+
+          setTimeout(() => this.ShowMessage = false, 5000);
+
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';
@@ -71,7 +77,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
       this.meCurrentPage = +params.pn;
 
       this.FetchOnInint = this.DataServ.FetchFilesList(this.meCurrentPage, environment.MediaListPageSize).subscribe(
-       (value) => {
+        (value) => {
           this.Files = this.MediaServ.GetFiles();
           this.meCollectionSize = this.MediaServ.Total;
         },

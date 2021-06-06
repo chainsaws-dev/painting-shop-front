@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   ShowMessage!: boolean;
   MessageType!: string;
-  ResponseFromBackend!: ErrorResponse;
+  Message!: string;
   RecivedErrorSub!: Subscription;
 
   Users!: User[];
@@ -52,10 +52,15 @@ export class UserListComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
-        this.ResponseFromBackend = response;
-        setTimeout(() => this.ShowMessage = false, 5000);
-
         if (response) {
+          if (response.Error) {
+            this.Message = response.Error.Message;
+          } else {
+            this.Message = "";
+          }
+          setTimeout(() => this.ShowMessage = false, 5000);
+
+
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

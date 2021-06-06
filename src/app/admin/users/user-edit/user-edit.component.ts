@@ -28,7 +28,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   ShowMessage: boolean = false;
   MessageType!: string;
-  ResponseFromBackend!: ErrorResponse;
+  Message!: string;
 
   constructor(
     private AdminServ: UsersService,
@@ -77,10 +77,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
-        this.ResponseFromBackend = response;
-        setTimeout(() => this.ShowMessage = false, 5000);
-
         if (response) {
+          if (response.Error) {
+            this.Message = response.Error.Message;
+          } else {
+            this.Message = "";
+          }
+          setTimeout(() => this.ShowMessage = false, 5000);
+
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

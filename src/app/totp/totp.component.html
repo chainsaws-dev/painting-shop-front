@@ -18,7 +18,7 @@
       </form>
     </div>
     <div style="padding: 3px" *ngIf="ShowMessage">
-      <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">{{ ResponseFromBackend.Error.Message }}</ngb-alert>
+      <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">{{ Message }}</ngb-alert>
     </div>
   </div>
   <div class="text-center">

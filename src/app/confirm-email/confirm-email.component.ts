@@ -14,7 +14,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
   IsLoading = false;
 
-  ResponseFromBackend!: ErrorResponse;
+  Message!: string;
 
   ShowMessage: boolean = false;
   MessageType!: string;
@@ -50,10 +50,17 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
-        this.ResponseFromBackend = response;
-        setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
+
+          if (response.Error) {
+            this.Message = response.Error.Message;
+          } else {
+            this.Message = "";
+          }
+
+          setTimeout(() => this.ShowMessage = false, 5000);
+
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

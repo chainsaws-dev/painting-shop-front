@@ -4,7 +4,7 @@
   </div>
 </div>
 <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+  {{ Message }}</ngb-alert>
 <form #UserEditForm="ngForm" (ngSubmit)="OnSaveClick(UserEditForm)" *ngIf="UserToEdit">
   <div class="form-group">
     <div style="margin: 3px;">

@@ -4,7 +4,7 @@
   </div>
 </div>
 <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+  {{ Message }}</ngb-alert>
 <form #FileEditForm="ngForm" *ngIf="FileToEdit">
   <div class="form-group">
     <div style="margin: 3px;">
