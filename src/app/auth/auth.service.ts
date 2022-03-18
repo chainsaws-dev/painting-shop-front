@@ -146,8 +146,12 @@ export class AuthService {
 
   CheckRegistered() {
     if (this.authData) {
-      if (this.authData.SecondFactor.Enabled === true) {
-        return this.authData.SecondFactor.CheckResult && this.authData.Registered;
+      if (this.authData.SecondFactor) {
+        if (this.authData.SecondFactor.Enabled === true) {
+          return this.authData.SecondFactor.CheckResult && this.authData.Registered;
+        } else {
+          return this.authData.Registered;
+        }
       } else {
         return this.authData.Registered;
       }
@@ -167,14 +171,14 @@ export class AuthService {
   HaveToCheckSecondFactor() {
     if (this.authData) {
       if (this.authData.SecondFactor) {
-      if (this.authData.SecondFactor.Enabled) {
-        return !this.authData.SecondFactor.CheckResult;
+        if (this.authData.SecondFactor.Enabled) {
+          return !this.authData.SecondFactor.CheckResult;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
-    } else  {
-      return false;
-    }
     } else {
       return true;
     }
