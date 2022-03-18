@@ -134,6 +134,9 @@ export class AuthService {
         this.authData = response;
         this.authData.ExpirationDate = String(new Date(new Date().getTime() + +this.authData.ExpiresIn * 1000));
         localStorage.setItem('userData', JSON.stringify(this.authData));
+        if(response.Registered===undefined) {
+          response.Registered = false;
+        }
         this.AuthResultSub.next(response.Registered);
         this.AutoSignOut(+this.authData.ExpiresIn * 1000);
       }, error => {
