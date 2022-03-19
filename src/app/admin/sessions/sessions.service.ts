@@ -12,8 +12,8 @@ export class SessionsService {
   SessionsChanged = new Subject<Session>();
   SessionsSelected = new Subject<Session>();
 
-  CurrentSelectedItem: Session = new Session;
-  Total!: number;
+  CurrentSelectedItem: Session;
+  Total: number;
 
 
   private Sessions: Session[] = [];

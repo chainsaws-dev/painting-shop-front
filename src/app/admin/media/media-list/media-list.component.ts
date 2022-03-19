@@ -14,21 +14,21 @@ import { MediaService } from '../media.service';
 })
 export class MediaListComponent implements OnInit, OnDestroy {
 
-  private PageChanged: Subscription = new Subscription;
-  private FetchOnInint: Subscription = new Subscription;
-  private DataLoading: Subscription = new Subscription;
+  private PageChanged: Subscription;
+  private FetchOnInint: Subscription;
+  private DataLoading: Subscription;
 
-  mePageSize!: number;
-  meCollectionSize!: number;
-  meCurrentPage!: number;
-  IsLoading: boolean = false;
+  mePageSize: number;
+  meCollectionSize: number;
+  meCurrentPage: number;
+  IsLoading: boolean;
 
-  ShowMessage: boolean = false;
-  MessageType!: string;
-  Message!: string;
-  RecivedErrorSub: Subscription = new Subscription;
+  ShowMessage: boolean;
+  MessageType: string;
+  ResponseFromBackend: ErrorResponse;
+  RecivedErrorSub: Subscription;
 
-  Files: FiLe[] = [];
+  Files: FiLe[];
 
   constructor(
     private ActiveRoute: ActivatedRoute,
@@ -51,16 +51,10 @@ export class MediaListComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
+        this.ResponseFromBackend = response;
+        setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
-
-          setTimeout(() => this.ShowMessage = false, 5000);
-
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';
@@ -77,7 +71,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
       this.meCurrentPage = +params.pn;
 
       this.FetchOnInint = this.DataServ.FetchFilesList(this.meCurrentPage, environment.MediaListPageSize).subscribe(
-        (value) => {
+       (value) => {
           this.Files = this.MediaServ.GetFiles();
           this.meCollectionSize = this.MediaServ.Total;
         },

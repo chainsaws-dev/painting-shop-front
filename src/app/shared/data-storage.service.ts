@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 
+
 import { ErrorResponse, Pagination } from '../shared/shared.model';
 import { FiLe, FilesResponse } from '../admin/media/media.model';
 import { map, tap } from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { UsersService } from '../admin/users/users.service';
 import { MediaService } from '../admin/media/media.service';
 import { SessionsResponse } from '../admin/sessions/sessions.model';
 import { SessionsService } from '../admin/sessions/sessions.service';
-
+import { Session } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ import { SessionsService } from '../admin/sessions/sessions.service';
 export class DataStorageService {
 
   LoadingData = new Subject<boolean>();
-
+  
   RecivedError = new Subject<ErrorResponse>();
   PaginationSet = new Subject<Pagination>();
   FileUploadProgress = new Subject<string>();
@@ -31,6 +32,10 @@ export class DataStorageService {
   CurrentUserFetch = new Subject<User>();
 
   TwoFactorSub = new Subject<User>();
+
+  LastPagination: Pagination;
+
+  Searched: boolean;
 
   constructor(
     private http: HttpClient,

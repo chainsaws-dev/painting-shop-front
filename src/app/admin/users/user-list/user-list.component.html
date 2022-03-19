@@ -9,7 +9,7 @@
     </div>
 
     <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-      {{ Message }}</ngb-alert>
+      {{ ResponseFromBackend.Error.Message }}</ngb-alert>
     <ul class="list-group mb-1">
 
       <li style="cursor: pointer;"
@@ -20,7 +20,7 @@
         <div class="input-group">
           <p class="p-2 m-0 flex-grow-1" style="place-items: center;"> {{ User.Email }}</p>
           <div class="input-group-append">
-            <button class="btn btn-outline-success" type="button" [routerLink]="i.toString()">Edit</button>
+            <button class="btn btn-outline-success me-1" type="button" [routerLink]="i">Edit</button>
             <button class="btn btn-outline-danger" type="button" (click)="OnDeleteUser(User, i)">Delete</button>
           </div>
         </div>
@@ -34,6 +34,6 @@
 </div>
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="sr-only">Loading...</span>
+    <span class="visually-hidden-focusable">Loading...</span>
   </div>
 </div>

@@ -15,16 +15,16 @@ export class AuthComponent implements OnInit, OnDestroy {
   LoginMode = true;
   IsLoading = false;
 
-  loggedIn: boolean = false;
-  private authErrSub: Subscription = new Subscription;
-  private loginResultSub: Subscription = new Subscription;
+  loggedIn: boolean;
+  private authErrSub: Subscription;
+  private loginResultSub: Subscription;
 
-  Message!: string;
-  ShowMessage: boolean = false;
-  MessageType!: string;
+  ResponseFromBackend: ErrorResponse;
+  ShowMessage: boolean;
+  MessageType: string;
 
   constructor(private authservice: AuthService,
-    private router: Router) { }
+              private router: Router) { }
 
   ngOnInit(): void {
     if (this.authservice.CheckRegistered()) {
@@ -32,19 +32,11 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     this.authErrSub = this.authservice.AuthErrorSub.subscribe((response: ErrorResponse) => {
-
       this.ShowMessage = true;
+      this.ResponseFromBackend = response;
+      setTimeout(() => this.ShowMessage = false, 5000);
 
       if (response) {
-
-        if (response.Error) {
-          this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-        } else {
-          this.Message = "";
-        }
-
-        setTimeout(() => this.ShowMessage = false, 5000);
-
         switch (response.Error.Code) {
           case 200:
             this.MessageType = 'success';
@@ -94,7 +86,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   Redirect() {
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/recipes']);
   }
 
   GoToSecondFactor() {

@@ -15,21 +15,21 @@ import { Subscription } from 'rxjs';
 })
 export class UserListComponent implements OnInit, OnDestroy {
 
-  private PageChanged!: Subscription;
-  private FetchOnInint!: Subscription;
-  private DataLoading!: Subscription;
+  private PageChanged: Subscription;
+  private FetchOnInint: Subscription;
+  private DataLoading: Subscription;
 
-  usCurrentPage!: number;
-  usPageSize!: number;
-  usCollectionSize!: number;
-  IsLoading!: boolean;
+  usCurrentPage: number;
+  usPageSize: number;
+  usCollectionSize: number;
+  IsLoading: boolean;
 
-  ShowMessage!: boolean;
-  MessageType!: string;
-  Message!: string;
-  RecivedErrorSub!: Subscription;
+  ShowMessage: boolean;
+  MessageType: string;
+  ResponseFromBackend: ErrorResponse;
+  RecivedErrorSub: Subscription;
 
-  Users!: User[];
+  Users: User[];
 
   constructor(
     private ActiveRoute: ActivatedRoute,
@@ -52,15 +52,10 @@ export class UserListComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
+        this.ResponseFromBackend = response;
+        setTimeout(() => this.ShowMessage = false, 5000);
+
         if (response) {
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
-          setTimeout(() => this.ShowMessage = false, 5000);
-
-
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

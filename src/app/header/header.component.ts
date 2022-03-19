@@ -3,7 +3,7 @@ import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-header',
@@ -15,11 +15,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   LoggedIn = false;
   SecondFactor = false;
 
-  UserEmail: string = "";
-  UserAdmin: boolean = false;
+  UserEmail: string;
+  UserAdmin: boolean;
 
-  private LoginSub: Subscription = new Subscription;
-  private SecondFactorSub: Subscription = new Subscription;
+  private LoginSub: Subscription;
+  private SecondFactorSub: Subscription;
 
   constructor(
     private auth: AuthService,
@@ -27,15 +27,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    if (environment.NoAuthGuard) {
-      this.LoggedIn = true;
-      this.SecondFactor = true;
-      this.UserAdmin = true;
-      return;
-    }
-
-    this.LoggedIn = this.auth.CheckRegistered() ?? false;
-    this.UserEmail = this.auth.GetUserEmail() ?? "";
+    this.LoggedIn = this.auth.CheckRegistered();
+    this.UserEmail = this.auth.GetUserEmail();
     this.UserAdmin = this.auth.CheckIfUserIsAdmin();
     if (!this.auth.HaveToCheckSecondFactor()) {
       this.SecondFactor = true;
@@ -46,7 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (!this.auth.HaveToCheckSecondFactor()) {
         this.SecondFactor = true;
       }
-      this.UserEmail = this.auth.GetUserEmail() ?? "";
+      this.UserEmail = this.auth.GetUserEmail();
       this.UserAdmin = this.auth.CheckIfUserIsAdmin();
     });
 

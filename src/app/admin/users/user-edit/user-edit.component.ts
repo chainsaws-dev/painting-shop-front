@@ -14,21 +14,21 @@ import { ErrorResponse } from '../../../shared/shared.model';
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 
-  editmode: boolean = false;
-  index!: number;
-  UserToEdit!: User;
+  editmode: boolean;
+  index: number;
+  UserToEdit: User;
 
-  IsLoading: boolean = false;
+  IsLoading: boolean;
 
-  changepassword: boolean = false;
+  changepassword: boolean;
 
-  private DatabaseUpdated: Subscription = new Subscription;
-  private DataLoading: Subscription = new Subscription;
-  private RecivedErrorSub: Subscription = new Subscription;
+  private DatabaseUpdated: Subscription;
+  private DataLoading: Subscription;
+  private RecivedErrorSub: Subscription;
 
-  ShowMessage: boolean = false;
-  MessageType!: string;
-  Message!: string;
+  ShowMessage: boolean;
+  MessageType: string;
+  ResponseFromBackend: ErrorResponse;
 
   constructor(
     private AdminServ: UsersService,
@@ -77,14 +77,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
-        if (response) {
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
-          setTimeout(() => this.ShowMessage = false, 5000);
+        this.ResponseFromBackend = response;
+        setTimeout(() => this.ShowMessage = false, 5000);
 
+        if (response) {
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

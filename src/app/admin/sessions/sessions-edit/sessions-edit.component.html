@@ -1,10 +1,10 @@
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="sr-only">Loading...</span>
+    <span class="visually-hidden-focusable">Loading...</span>
   </div>
 </div>
 <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-  {{ Message }}</ngb-alert>
+  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
 <form #SessionEditForm="ngForm" *ngIf="SessionToEdit">
   <div class="form-group">
     <div style="margin: 3px;">

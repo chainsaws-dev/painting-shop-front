@@ -14,33 +14,33 @@ import { ErrorResponse } from '../shared/shared.model';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  index!: number;
+  index: number;
 
-  UserToEdit!: User;
+  UserToEdit: User;
 
-  TwoFactorEnabled: boolean = false;
+  TwoFactorEnabled: boolean;
 
-  SetTwoFactor: boolean = false;
+  SetTwoFactor: boolean;
 
-  IsLoading: boolean = false;
-  changepassword: boolean = false;
+  IsLoading: boolean;
+  changepassword: boolean;
 
-  AuthUrl!: string;
-  QrUrl!: string;
+  AuthUrl: string;
+  QrUrl: string;
 
 
 
-  private DataLoading: Subscription = new Subscription;
-  private RecivedErrorSub: Subscription = new Subscription;
+  private DataLoading: Subscription;
+  private RecivedErrorSub: Subscription;
 
-  private FetchUser: Subscription = new Subscription;
-  private SaveUser: Subscription = new Subscription;
+  private FetchUser: Subscription;
+  private SaveUser: Subscription;
 
-  private LinkUnlinkTFA: Subscription = new Subscription;
+  private LinkUnlinkTFA: Subscription;
 
-  ShowMessage: boolean = false;
-  MessageType!: string;
-  Message!: string;
+  ShowMessage: boolean;
+  MessageType: string;
+  ResponseFromBackend: ErrorResponse;
 
   constructor(
     private activatedroute: ActivatedRoute,
@@ -82,14 +82,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
-        if (response) {
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
+        this.ResponseFromBackend = response;
         setTimeout(() => this.ShowMessage = false, 5000);
 
+        if (response) {
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

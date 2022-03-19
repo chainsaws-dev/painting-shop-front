@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
 import { ActivatedRoute, Router, Params, UrlSegment } from '@angular/router';
+import * as url from 'url';
 
 @Component({
   selector: 'app-confirm-email',
@@ -14,18 +15,18 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
 
   IsLoading = false;
 
-  Message!: string;
+  ResponseFromBackend: ErrorResponse;
 
-  ShowMessage: boolean = false;
-  MessageType!: string;
+  ShowMessage: boolean;
+  MessageType: string;
 
-  RecivedErrorSub: Subscription = new Subscription;
-  RecivedResponseSub: Subscription = new Subscription;
-  DataServiceSub: Subscription = new Subscription;
+  RecivedErrorSub: Subscription;
+  RecivedResponseSub: Subscription;
+  DataServiceSub: Subscription;
 
-  Token!: string;
+  Token: string;
 
-  ResetPasswordMode: boolean = false;
+  ResetPasswordMode: boolean;
 
   constructor(
     private DataServ: DataStorageService,
@@ -50,17 +51,10 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
+        this.ResponseFromBackend = response;
+        setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
-
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
-
-          setTimeout(() => this.ShowMessage = false, 5000);
-
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

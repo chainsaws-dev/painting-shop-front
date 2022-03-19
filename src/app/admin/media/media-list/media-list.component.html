@@ -1,6 +1,6 @@
 <div *ngIf="!IsLoading">
   <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-    {{ Message }}</ngb-alert>
+    {{ ResponseFromBackend.Error.Message }}</ngb-alert>
   <div class="input-group ml-3">
     <div class="input-group-prepend mt-2">
       <button class="btn btn-outline-primary" [routerLink]="['/admin/media',meCurrentPage,'new']"
@@ -10,10 +10,10 @@
   <div class="parent-media-box">
     <div class="media-box" *ngFor="let f of Files; let i=index">
       <a [href]="f.FileID">
-        <img [src]="f.PreviewID" [alt]="f.FileName">
+        <img [src]="f.PreviewID" [alt]="f.Filename">
       </a>
       <div class="media-box-overlay">
-        <button class="btn btn-outline-success" type="button" [routerLink]="i.toString()">Edit</button>
+        <button class="btn btn-outline-success me-1" type="button" [routerLink]="i">Edit</button>
         <button class="btn btn-outline-danger" type="button" (click)="OnDeleteFile(f, i)">Delete</button>
       </div>
     </div>
@@ -26,7 +26,7 @@
 </div>
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="sr-only">Loading...</span>
+    <span class="visually-hidden-focusable">Loading...</span>
   </div>
 </div>
 <!-- auto fill - чтобы заполняло - auto fit - чтобы растягивало -->

@@ -15,12 +15,12 @@ export class TotpComponent implements OnInit, OnDestroy {
   LoginMode = true;
   IsLoading = false;
 
-  private SfErrSub!: Subscription;
-  private SfResultSub!: Subscription;
+  private SfErrSub: Subscription;
+  private SfResultSub: Subscription;
 
-  Message!: string;
-  ShowMessage!: boolean;
-  MessageType!: string;
+  ResponseFromBackend: ErrorResponse;
+  ShowMessage: boolean;
+  MessageType: string;
 
   constructor(
     private authservice: AuthService,
@@ -38,15 +38,10 @@ export class TotpComponent implements OnInit, OnDestroy {
 
     this.SfErrSub = this.authservice.SfErrorSub.subscribe((response: ErrorResponse) => {
       this.ShowMessage = true;
+      this.ResponseFromBackend = response;
+      setTimeout(() => this.ShowMessage = false, 5000);
 
       if (response) {
-        if (response.Error) {
-          this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-        } else {
-          this.Message = "";
-        }
-        setTimeout(() => this.ShowMessage = false, 5000);
-
         switch (response.Error.Code) {
           case 200:
             this.MessageType = 'success';

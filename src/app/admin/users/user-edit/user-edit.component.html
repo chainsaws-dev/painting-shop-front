@@ -1,10 +1,10 @@
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="sr-only">Loading...</span>
+    <span class="visually-hidden-focusable">Loading...</span>
   </div>
 </div>
 <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-  {{ Message }}</ngb-alert>
+  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
 <form #UserEditForm="ngForm" (ngSubmit)="OnSaveClick(UserEditForm)" *ngIf="UserToEdit">
   <div class="form-group">
     <div style="margin: 3px;">
@@ -39,10 +39,8 @@
 
       <label for="newpassword">Password</label>
       <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <input type="checkbox" id="changepassword" name="changepassword" [(ngModel)]="changepassword">
-          </div>
+        <div class="input-group-text">
+          <input type="checkbox" id="changepassword" name="changepassword" [(ngModel)]="changepassword">
         </div>
         <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter new password"
           [disabled]="!changepassword" ngModel>

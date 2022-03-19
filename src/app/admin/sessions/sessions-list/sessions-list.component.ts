@@ -15,21 +15,21 @@ import { SessionsService } from '../sessions.service';
 })
 export class SessionsListComponent implements OnInit, OnDestroy {
 
-  private PageChanged!: Subscription;
-  private FetchOnInint!: Subscription;
-  private DataLoading!: Subscription;
+  private PageChanged: Subscription;
+  private FetchOnInint: Subscription;
+  private DataLoading: Subscription;
 
-  sesCurrentPage!: number;
-  sesPageSize!: number;
-  sesCollectionSize!: number;
-  IsLoading!: boolean;
+  sesCurrentPage: number;
+  sesPageSize: number;
+  sesCollectionSize: number;
+  IsLoading: boolean;
 
-  ShowMessage!: boolean;
-  MessageType!: string;
-  Message!: string;
-  RecivedErrorSub!: Subscription;
+  ShowMessage: boolean;
+  MessageType: string;
+  ResponseFromBackend: ErrorResponse;
+  RecivedErrorSub: Subscription;
 
-  Sessions!: Session[];
+  Sessions: Session[];
 
   constructor(
     private ActiveRoute: ActivatedRoute,
@@ -52,17 +52,10 @@ export class SessionsListComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
+        this.ResponseFromBackend = response;
+        setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
-
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
-
-          setTimeout(() => this.ShowMessage = false, 5000);
-
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';

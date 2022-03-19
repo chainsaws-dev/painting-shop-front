@@ -1,26 +1,26 @@
 <div class="main-parent-login">
   <div class="card mx-auto" style="margin-top: 3px;" *ngIf="!IsLoading">
     <div class="card-header">
-      <h2>{{ LoginMode? 'Sign in' : 'Sign up'}}</h2>
+      <h3>{{ LoginMode? 'Sign in' : 'Sign up'}}</h3>
     </div>
     <div class="card-body">
       <form (ngSubmit)="OnSubmitForm(SignupForm)" #SignupForm="ngForm">
-        <div class="input-group form-group">
+        <div class="input-group mb-3">
           <input type="email" name="email" class="form-control" placeholder="E-mail" placement="right" ngbTooltip="Real email required" ngModel email required>
         </div>
-        <div class="input-group form-group" *ngIf="!LoginMode">
+        <div class="input-group mb-3" *ngIf="!LoginMode">
           <input type="text" name="name" class="form-control" placeholder="Name" ngModel>
         </div>
-        <div class="input-group form-group">
+        <div class="input-group mb-3">
           <input type="password" name="password" class="form-control" placeholder="Password" ngModel required
             minlength='6' placement="right" ngbTooltip="Minimum 6 chars">
         </div>
-        <div class="form-group float-right">
+        <div class="float-right">
           <div class="input-group">
             <div class="input-group-prepend">
-              <button type="submit" class="btn btn btn-outline-primary"
+              <button type="submit" class="btn btn-outline-primary me-1"
                 [disabled]="SignupForm.invalid">{{ LoginMode ? 'Login' : 'Sign up'}}</button>
-              <button type="button" class="btn btn btn-outline-primary" (click)="onSwitchMode()">To
+              <button type="button" class="btn btn-outline-primary" (click)="onSwitchMode()">To
                 {{ LoginMode ? 'sign up' : 'sign in'}}</button>
             </div>
           </div>
@@ -34,12 +34,12 @@
       </div>
     </div>
     <div style="padding: 3px" *ngIf="ShowMessage">
-      <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">{{ Message }}</ngb-alert>
+      <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">{{ ResponseFromBackend.Error.Message }}</ngb-alert>
     </div>
   </div>
   <div class="text-center">
     <div class="spinner-border" role="status" *ngIf="IsLoading">
-      <span class="sr-only">Loading...</span>
+      <span class="visually-hidden-focusable">Loading...</span>
     </div>
   </div>
 </div>

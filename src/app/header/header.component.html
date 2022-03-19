@@ -1,32 +1,33 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;" *ngIf="LoggedIn && SecondFactor">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="LoggedIn && SecondFactor">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a href="#" class="navbar-brand">Paintings Shop</a>
+    <a href="#" class="navbar-brand">Recipe book</a>
+    <ul class="nav nav-tabs me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a routerLink="/recipes" routerLinkActive="active" class="nav-link">
+          Recipes
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/shopping-list" routerLinkActive="active" class="nav-link" *ngIf="UserAdmin">
+          Shopping list
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/admin" routerLinkActive="active" class="nav-link" *ngIf="UserAdmin">
+          Admin
+        </a>
+      </li>
+    </ul>
+    <div class="nav">
+      <button class="btn btn-outline-secondary me-1" placement="bottom" ngbTooltip="View profile" type="button"
+        routerLinkActive="active" routerLink="/profile">{{UserEmail}}</button>
+      <button class="btn btn-outline-primary me-1" type="button" (click)="OnLogout()">Sign out</button>
     </div>
-    <div class="navbar-expand mr-auto mt-2 mt-lg-0">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a routerLink="/artworks" routerLinkActive="active" class="nav-link">
-            Artworks
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/references" routerLinkActive="active" class="nav-link" *ngIf="UserAdmin">
-            References
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/admin" routerLinkActive="active" class="nav-link" *ngIf="UserAdmin">
-            Admin
-          </a>
-        </li>
-      </ul>
-    </div>
-    <form (ngSubmit)="SearchRecipes(searchform)" class="form-inline" #searchform="ngForm">
-      <button class="btn btn-outline-secondary mr-sm-2 my-2 my-sm-0" placement="bottom" ngbTooltip="View profile" type="button" routerLinkActive="active" routerLink="/profile">{{UserEmail}}</button>
-      <button class="btn btn-outline-primary mr-sm-2 my-2 my-sm-0" type="button" (click)="OnLogout()">Sign out</button>
-      <input  class="form-control mr-sm-2" type="search" placeholder="Search" ngModel name="searchreq" required>
-      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" [disabled]="searchform.invalid">Search</button>
+
+    <form (ngSubmit)="SearchRecipes(searchform)" class="d-flex" #searchform="ngForm">
+      <input class="form-control me-1" type="search" placeholder="Search" ngModel name="searchreq" required>
+      <button class="btn btn-outline-primary" type="submit" [disabled]="searchform.invalid">Search</button>
     </form>
+
   </div>
 </nav>

@@ -3,10 +3,10 @@ export class Ingredient{
 }
 
 export class ShoppingListResponse {
-  public Items: Ingredient[] = [];
-  public Total!: number;
-  public Offset!: number;
-  public Limit!: number;
+  public Items: Ingredient[];
+  public Total: number;
+  public Offset: number;
+  public Limit: number;
 }
 
 export class ErrorResponse {

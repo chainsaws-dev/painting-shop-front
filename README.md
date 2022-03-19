@@ -1,6 +1,9 @@
-# PaintingShopFront
+# Shopping Lists And Recipes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+Frontend for web app to store recipes and shopping list.
+(In development)
+
+Note that this frontend is specifically developed for this [backend](https://github.com/chainsaws-dev/painting-shop-front-backend)
 
 ## Development server
 
@@ -20,8 +23,8 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

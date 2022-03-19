@@ -12,7 +12,7 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     if (this.auth.CheckFirstFactorPassed()) {
 
-      const modreq = req.clone({headers: req.headers.set('Auth', this.auth.GetUserToken() ?? "")
+      const modreq = req.clone({headers: req.headers.set('Auth', this.auth.GetUserToken())
       .set('ApiKey', environment.ApiKey)});
 
       return next.handle(modreq);

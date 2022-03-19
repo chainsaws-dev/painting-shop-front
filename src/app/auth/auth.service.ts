@@ -11,16 +11,16 @@ import { ErrorResponse } from '../shared/shared.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private authData!: AuthResponseData;
+  private authData: AuthResponseData = null;
   private autoRefreshToken: any;
 
   public AuthErrorSub = new Subject<ErrorResponse>();
   public AuthResultSub = new Subject<boolean>();
-  private authObs!: Observable<AuthResponseData>;
+  private authObs: Observable<AuthResponseData>;
 
   public SfErrorSub = new Subject<ErrorResponse>();
   public SfResultSub = new Subject<boolean>();
-  private SecFactorObs!: Observable<ErrorResponse>;
+  private SecFactorObs: Observable<ErrorResponse>;
 
 
   constructor(
@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   SignOut() {
-    this.authData = {} as AuthResponseData;
+    this.authData = null;
     if (this.autoRefreshToken) {
       clearTimeout(this.autoRefreshToken);
     }
@@ -114,7 +114,7 @@ export class AuthService {
     } else {
       this.authData = JSON.parse(userData);
 
-      const ExpDur = new Date(this.authData.ExpirationDate ?? "").getTime() -
+      const ExpDur = new Date(this.authData.ExpirationDate).getTime() -
         new Date().getTime();
 
       this.AuthResultSub.next(true);
@@ -134,9 +134,6 @@ export class AuthService {
         this.authData = response;
         this.authData.ExpirationDate = String(new Date(new Date().getTime() + +this.authData.ExpiresIn * 1000));
         localStorage.setItem('userData', JSON.stringify(this.authData));
-        if(response.Registered===undefined) {
-          response.Registered = false;
-        }
         this.AuthResultSub.next(response.Registered);
         this.AutoSignOut(+this.authData.ExpiresIn * 1000);
       }, error => {
@@ -148,13 +145,9 @@ export class AuthService {
   }
 
   CheckRegistered() {
-    if (this.authData) {
-      if (this.authData.SecondFactor) {
-        if (this.authData.SecondFactor.Enabled === true) {
-          return this.authData.SecondFactor.CheckResult && this.authData.Registered;
-        } else {
-          return this.authData.Registered;
-        }
+    if (this.authData !== null) {
+      if (this.authData.SecondFactor.Enabled === true) {
+        return this.authData.SecondFactor.CheckResult && this.authData.Registered;
       } else {
         return this.authData.Registered;
       }
@@ -164,7 +157,7 @@ export class AuthService {
   }
 
   CheckFirstFactorPassed() {
-    if (this.authData) {
+    if (this.authData !== null) {
       return this.authData.Registered;
     } else {
       return false;
@@ -172,13 +165,9 @@ export class AuthService {
   }
 
   HaveToCheckSecondFactor() {
-    if (this.authData) {
-      if (this.authData.SecondFactor) {
-        if (this.authData.SecondFactor.Enabled) {
-          return !this.authData.SecondFactor.CheckResult;
-        } else {
-          return false;
-        }
+    if (this.authData !== null) {
+      if (this.authData.SecondFactor.Enabled) {
+        return !this.authData.SecondFactor.CheckResult;
       } else {
         return false;
       }
@@ -188,15 +177,11 @@ export class AuthService {
   }
 
   CheckTokenExpired() {
-    if (this.authData) {
-      if (this.authData.ExpirationDate !== '' && this.authData.ExpirationDate !== null) {
-        return !(new Date() > new Date(this.authData.ExpirationDate ?? ""));
-      }
-      else {
-        return false;
-      }
-    } else {
-      return true;
+    if (this.authData.ExpirationDate !== '' && this.authData.ExpirationDate !== null) {
+      return !(new Date() > new Date(this.authData.ExpirationDate));
+    }
+    else {
+      return false;
     }
   }
 

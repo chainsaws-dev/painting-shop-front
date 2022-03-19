@@ -14,22 +14,22 @@ import { MediaService } from '../media.service';
 })
 export class MediaEditComponent implements OnInit, OnDestroy {
 
-  editmode: boolean = false;
-  index!: number;
-  FileToEdit!: FiLe;
+  editmode: boolean;
+  index: number;
+  FileToEdit: FiLe;
 
-  IsLoading: boolean = false;
+  IsLoading: boolean;
   CurPercentStyle = 'width: 0%';
 
-  private DataLoading: Subscription = new Subscription;
-  private RecivedErrorSub: Subscription = new Subscription;
+  private DataLoading: Subscription;
+  private RecivedErrorSub: Subscription;
 
-  FileProgress: Subscription = new Subscription;
-  FileUploaded: Subscription = new Subscription;
+  FileProgress: Subscription;
+  FileUploaded: Subscription;
 
-  ShowMessage: boolean = false;
-  MessageType!: string;
-  Message!: string;
+  ShowMessage: boolean;
+  MessageType: string;
+  ResponseFromBackend: ErrorResponse;
 
   constructor(
     private MediaServ: MediaService,
@@ -64,16 +64,10 @@ export class MediaEditComponent implements OnInit, OnDestroy {
       (response) => {
 
         this.ShowMessage = true;
+        this.ResponseFromBackend = response;
+        setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
-          if (response.Error) {
-            this.Message = response.Error.Message[0].toUpperCase() + response.Error.Message.slice(1);
-          } else {
-            this.Message = "";
-          }
-
-          setTimeout(() => this.ShowMessage = false, 5000);
-
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';
@@ -106,7 +100,7 @@ export class MediaEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  onFileInput(event: any) {
+  onFileInput(event) {
     this.CurPercentStyle = 'width: 0%';
     const FileToUpload = event.target.files[0] as File;
     this.datastore.FileUpload(FileToUpload);
