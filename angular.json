@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "shopping-lists-and-recipes": {
+    "paintings-shop-front": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/shopping-lists-and-recipes",
+            "outputPath": "dist/paintings-shop-front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "shopping-lists-and-recipes:build"
+            "browserTarget": "paintings-shop-front:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "shopping-lists-and-recipes:build:production"
+              "browserTarget": "paintings-shop-front:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "shopping-lists-and-recipes:build"
+            "browserTarget": "paintings-shop-front:build"
           }
         },
         "test": {
@@ -104,11 +104,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "shopping-lists-and-recipes:serve"
+            "devServerTarget": "paintings-shop-front:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "shopping-lists-and-recipes:serve:production"
+              "devServerTarget": "paintings-shop-front:serve:production"
             }
           }
         },
@@ -124,7 +124,7 @@
       }
     }
   },
-  "defaultProject": "shopping-lists-and-recipes",
+  "defaultProject": "paintings-shop-front",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
   }

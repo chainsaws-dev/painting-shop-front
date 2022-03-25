@@ -3,7 +3,7 @@
 Frontend for web app to store recipes and shopping list.
 (In development)
 
-Note that this frontend is specifically developed for this [backend](https://github.com/chainsaws-dev/shopping-lists-and-recipes-backend)
+Note that this frontend is specifically developed for this [backend](https://github.com/chainsaws-dev/paintings-shop-front-backend)
 
 ## Development server
 
