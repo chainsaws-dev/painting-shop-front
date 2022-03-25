@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ErrorResponse } from '../shared/shared.model';
 
@@ -24,7 +27,12 @@ export class TotpComponent implements OnInit, OnDestroy {
 
   constructor(
     private authservice: AuthService,
-    private router: Router) { }
+    private router: Router,
+    public translate: TranslateService,
+    private sitetitle: Title) {
+    translate.addLangs(environment.SupportedLangs);
+    translate.setDefaultLang(environment.DefaultLocale);
+  }
 
   ngOnDestroy(): void {
     this.SfResultSub.unsubscribe();
@@ -32,9 +40,20 @@ export class TotpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     if (this.authservice.CheckRegistered()) {
       this.Redirect();
     }
+
+    const ulang = localStorage.getItem("userLang")
+
+    if (ulang !== null) {
+      this.SwitchLanguage(ulang)
+    } else {
+      this.SwitchLanguage(environment.DefaultLocale)
+    }
+
+
 
     this.SfErrSub = this.authservice.SfErrorSub.subscribe((response: ErrorResponse) => {
       this.ShowMessage = true;
@@ -42,6 +61,7 @@ export class TotpComponent implements OnInit, OnDestroy {
       setTimeout(() => this.ShowMessage = false, 5000);
 
       if (response) {
+
         switch (response.Error.Code) {
           case 200:
             this.MessageType = 'success';
@@ -78,5 +98,19 @@ export class TotpComponent implements OnInit, OnDestroy {
     this.router.navigate(['/recipes']);
   }
 
+  SwitchLanguage(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem("userLang", lang)
 
+    this.translate.get("WebsiteTitleText", lang).subscribe(
+      {
+        next: (titletext: string) => {
+          this.sitetitle.setTitle(titletext);
+        },
+        error: error => {
+          console.log(error);
+        }
+      }
+    );
+  }
 }

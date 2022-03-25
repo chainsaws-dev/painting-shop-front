@@ -1,45 +1,51 @@
 <div class="main-parent-login">
   <div class="card mx-auto" style="margin-top: 3px;" *ngIf="!IsLoading">
     <div class="card-header">
-      <h3>{{ LoginMode? 'Sign in' : 'Sign up'}}</h3>
+      <h3>{{ (LoginMode? 'SignIn':'SignUp')|translate }}</h3>
     </div>
     <div class="card-body">
       <form (ngSubmit)="OnSubmitForm(SignupForm)" #SignupForm="ngForm">
         <div class="input-group mb-3">
-          <input type="email" name="email" class="form-control" placeholder="E-mail" placement="right" ngbTooltip="Real email required" ngModel email required>
+          <input type="email" name="email" class="form-control" [placeholder]="'Email'|translate" placement="right"
+            [ngbTooltip]="'RealEmailRequired'|translate" ngModel email required>
         </div>
         <div class="input-group mb-3" *ngIf="!LoginMode">
-          <input type="text" name="name" class="form-control" placeholder="Name" ngModel>
+          <input type="text" name="name" class="form-control" [placeholder]="'Name'|translate" ngModel>
         </div>
         <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password" ngModel required
-            minlength='6' placement="right" ngbTooltip="Minimum 6 chars">
+          <input type="password" name="password" class="form-control" [placeholder]="'Password'|translate" ngModel
+            required minlength='6' placement="right" [ngbTooltip]="'MinSixChars'|translate">
         </div>
         <div class="float-right">
           <div class="input-group">
-            <div class="input-group-prepend">
-              <button type="submit" class="btn btn-outline-primary me-1"
-                [disabled]="SignupForm.invalid">{{ LoginMode ? 'Login' : 'Sign up'}}</button>
-              <button type="button" class="btn btn-outline-primary" (click)="onSwitchMode()">To
-                {{ LoginMode ? 'sign up' : 'sign in'}}</button>
-            </div>
+            <button type="submit" class="btn btn-outline-primary me-1">{{ (LoginMode ?
+              'SignIn' : 'SignUp')|translate }}</button>
+            <button type="button" class="btn btn-outline-primary" (click)="onSwitchMode()">
+              {{ (LoginMode ? 'SignUp' : 'SignIn')|translate}}</button>            
+            <select class="form-select" #selectedLang (change)="SwitchLanguage(selectedLang.value)"  [ngbTooltip]="'LangSelector'|translate">
+              <option *ngFor="let language of translate.getLangs()" [value]="language"
+                [selected]="language === translate.currentLang">
+                {{ language }}
+              </option>
+            </select>            
           </div>
         </div>
       </form>
     </div>
     <div class="card-footer">
       <div class="d-flex justify-content-center">
-        <a href="/reset-password" *ngIf="LoginMode">Forgot your password?</a>
-        <a href="/confirm-email" *ngIf="!LoginMode">No confirmation email?</a>
+        <a href="/reset-password" *ngIf="LoginMode">{{ 'ForgotYourPassword'|translate }}</a>
+        <a href="/confirm-email" *ngIf="!LoginMode">{{ 'NoConfirmationEmail'|translate }}</a>
       </div>
     </div>
     <div style="padding: 3px" *ngIf="ShowMessage">
-      <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">{{ ResponseFromBackend.Error.Message }}</ngb-alert>
+      <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">{{
+         ResponseFromBackend.Error.Message | FirstLetterUpperPipe }}</ngb-alert>
     </div>
   </div>
   <div class="text-center">
     <div class="spinner-border" role="status" *ngIf="IsLoading">
-      <span class="visually-hidden-focusable">Loading...</span>
+      <span class="visually-hidden-focusable">{{ 'Loading'|translate }}</span>
     </div>
   </div>
 </div>

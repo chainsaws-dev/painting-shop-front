@@ -18,6 +18,7 @@ export class AuthService {
   public AuthResultSub = new Subject<boolean>();
   private authObs: Observable<AuthResponseData>;
 
+  public LocaleSub = new Subject<string>();
   public SfErrorSub = new Subject<ErrorResponse>();
   public SfResultSub = new Subject<boolean>();
   private SecFactorObs: Observable<ErrorResponse>;
@@ -67,27 +68,30 @@ export class AuthService {
       environment.TOTPCheckUrl, null, httpOptions);
 
     this.SecFactorObs.subscribe(
-      response => {
+      {
+        next: response => {
 
-        if (response.Error.Code === 200) {
-          this.authData.SecondFactor.CheckResult = true;
-        } else {
+          if (response.Error.Code === 200) {
+            this.authData.SecondFactor.CheckResult = true;
+          } else {
+            this.authData.SecondFactor.CheckResult = false;
+          }
+
+          localStorage.setItem('userData', JSON.stringify(this.authData));
+
+          this.SfResultSub.next(this.authData.SecondFactor.CheckResult);
+          this.SfErrorSub.next(response);
+
+        },
+        error: error => {
+
+          const errresp = error.error as ErrorResponse;
           this.authData.SecondFactor.CheckResult = false;
+
+          this.SfResultSub.next(false);
+          this.SfErrorSub.next(errresp);
+
         }
-
-        localStorage.setItem('userData', JSON.stringify(this.authData));
-
-        this.SfResultSub.next(this.authData.SecondFactor.CheckResult);
-        this.SfErrorSub.next(response);
-
-      }, error => {
-
-        const errresp = error.error as ErrorResponse;
-        this.authData.SecondFactor.CheckResult = false;
-
-        this.SfResultSub.next(false);
-        this.SfErrorSub.next(errresp);
-
       }
     );
   }
@@ -130,18 +134,28 @@ export class AuthService {
 
   private RequestSub() {
     this.authObs.subscribe(
-      response => {
-        this.authData = response;
-        this.authData.ExpirationDate = String(new Date(new Date().getTime() + +this.authData.ExpiresIn * 1000));
-        localStorage.setItem('userData', JSON.stringify(this.authData));
-        this.AuthResultSub.next(response.Registered);
-        this.AutoSignOut(+this.authData.ExpiresIn * 1000);
-      }, error => {
-        const errresp = error.error as ErrorResponse;
-        this.AuthResultSub.next(false);
-        this.AuthErrorSub.next(errresp);
+      {
+        next: (response) => {
+          this.authData = response;
+          this.authData.ExpirationDate = String(new Date(new Date().getTime() + +this.authData.ExpiresIn * 1000));
+          localStorage.setItem('userData', JSON.stringify(this.authData));
+          this.AuthResultSub.next(response.Registered);
+          this.AutoSignOut(+this.authData.ExpiresIn * 1000);
+          this.ChangeLocale(this.authData.Locale)
+        },
+        error: (error) => {
+          const errresp = error.error as ErrorResponse;
+          this.AuthResultSub.next(false);
+          this.AuthErrorSub.next(errresp);
+        }
       }
     );
+  }
+
+  ChangeLocale(Lang: string) {
+    this.authData.Locale = Lang;
+    this.LocaleSub.next(Lang);
+    localStorage.setItem("userLang", Lang)
   }
 
   CheckRegistered() {
@@ -198,6 +212,14 @@ export class AuthService {
       return this.authData.Email;
     } else {
       return null;
+    }
+  }
+
+  GetUserLocale() {
+    if (this.authData) {
+      return this.authData.Locale;
+    } else {
+      return localStorage.getItem("userLang");
     }
   }
 

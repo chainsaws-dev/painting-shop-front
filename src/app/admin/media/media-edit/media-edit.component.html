@@ -1,15 +1,15 @@
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="visually-hidden-focusable">Loading...</span>
+    <span class="visually-hidden-focusable">{{ 'Loading'|translate }}</span>
   </div>
 </div>
 <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+  {{  ResponseFromBackend.Error.Message | FirstLetterUpperPipe }}</ngb-alert>
 <form #FileEditForm="ngForm" *ngIf="FileToEdit">
   <div class="form-group">
     <div style="margin: 3px;">
-      <h2 *ngIf="editmode">Edit</h2>
-      <h2 *ngIf="!editmode">Create</h2>
+      <h2 *ngIf="editmode">{{ 'Edit'|translate }}</h2>
+      <h2 *ngIf="!editmode">{{ 'Create'|translate }}</h2>
 
       <div *ngIf="!FileToEdit.FileID" class="image-placeholder mx-auto">
         <h4>592x333</h4>
@@ -17,7 +17,7 @@
       <a [href]="FileToEdit.FileID"><img *ngIf="FileToEdit.FileID" [src]="FileToEdit.FileID" [alt]="FileToEdit.Filename" class="rounded d-block mx-auto"
         style="margin: 3px; max-width: 500px; max-height: 333px; max-width: 100%;"></a>
       <button type="button" class="btn btn-outline-primary" style="margin: 3px;" (click)="fileInput.click()" [disabled]="editmode">
-        <span>Upload image</span>
+        <span>{{ 'UploadImage'|translate }}</span>
         <input #fileInput type="file" class="form-control-file" accept="image/*" (change)="onFileInput($event)" style="display:none;" />
       </button>
       <div class="progress mb-1">
@@ -27,30 +27,30 @@
       </div>
 
       <div class="form-group">
-        <label for="name">File name</label>
+        <label for="name">{{ 'FileName'|translate }}</label>
         <input type="text" id="fname" placeholder="placeholder.jpg" class="form-control mb-1" name="filename"
           [ngModel]="FileToEdit.Filename" required [disabled]="true">
       </div>
 
       <div class="form-group">
-        <label for="name">File size</label>
+        <label for="name">{{ 'FileSize'|translate }}</label>
         <input type="text" id="fsize" placeholder="0" class="form-control mb-1" name="filesize"
           [ngModel]="FileToEdit.Filesize" required [disabled]="true">
       </div>
 
       <div class="form-group">
-        <label for="name">File type</label>
+        <label for="name">{{ 'FileType'|translate }}</label>
         <input type="text" id="ftype" placeholder="jpg" class="form-control mb-1" name="filetype"
           [ngModel]="FileToEdit.Filetype" required [disabled]="true">
       </div>
 
       <div class="form-group">
-        <label for="name">File link</label>
+        <label for="name">{{ 'FileLink'|translate }}</label>
         <input type="text" id="flink" placeholder="/uploads/placeholder.jpg" class="form-control mb-1" name="filelink"
           [ngModel]="FileToEdit.FileID" required [disabled]="true">
       </div>
 
-      <button class="btn btn-outline-danger" type="button" routerLink=".." style="margin-left: 3px;">Cancel</button>
+      <button class="btn btn-outline-danger" type="button" routerLink=".." style="margin-left: 3px;">{{ 'Cancel'|translate }}</button>
 
     </div>
   </div>

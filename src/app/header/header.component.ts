@@ -3,6 +3,9 @@ import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -20,19 +23,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private LoginSub: Subscription;
   private SecondFactorSub: Subscription;
+  private TranslateSub: Subscription;
 
   constructor(
     private auth: AuthService,
-    private router: Router
-  ) { }
+    private router: Router,
+    public translate: TranslateService,
+    private sitetitle: Title
+  ) { 
+    translate.addLangs(environment.SupportedLangs);
+    translate.setDefaultLang(environment.DefaultLocale);
+  }
 
   ngOnInit(): void {
+    
+    const ulang = localStorage.getItem("userLang")
+
+    if (ulang!==null) {
+      this.SwitchLanguage(ulang)
+    } else {
+      this.SwitchLanguage(environment.DefaultLocale)
+    } 
+
     this.LoggedIn = this.auth.CheckRegistered();
     this.UserEmail = this.auth.GetUserEmail();
     this.UserAdmin = this.auth.CheckIfUserIsAdmin();
     if (!this.auth.HaveToCheckSecondFactor()) {
       this.SecondFactor = true;
-    }
+    } 
+
+    this.TranslateSub = this.auth.LocaleSub.subscribe(
+      (Lang) => {
+        this.SwitchLanguage(Lang)
+      }
+    )  
 
     this.LoginSub = this.auth.AuthResultSub.subscribe((loggedin) => {
       this.LoggedIn = loggedin;
@@ -40,7 +64,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.SecondFactor = true;
       }
       this.UserEmail = this.auth.GetUserEmail();
-      this.UserAdmin = this.auth.CheckIfUserIsAdmin();
+      this.UserAdmin = this.auth.CheckIfUserIsAdmin();        
+    
     });
 
     this.SecondFactorSub = this.auth.SfResultSub.subscribe((result) => {
@@ -59,6 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.LoginSub.unsubscribe();
     this.SecondFactorSub.unsubscribe();
+    this.TranslateSub.unsubscribe();
   }
 
   OnLogout() {
@@ -66,5 +92,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.UserEmail = '';
     this.UserAdmin = false;
     this.auth.SignOut();
+  }
+
+  SwitchLanguage(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem("userLang", lang)    
+
+    this.translate.get("WebsiteTitleText", lang).subscribe(
+      {
+        next: (titletext: string) => {
+          this.sitetitle.setTitle(titletext);
+        },
+        error: error => {
+          console.log(error);
+        }
+      }
+    );
   }
 }

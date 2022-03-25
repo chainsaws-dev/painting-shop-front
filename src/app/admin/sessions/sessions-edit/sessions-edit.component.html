@@ -1,36 +1,36 @@
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="visually-hidden-focusable">Loading...</span>
+    <span class="visually-hidden-focusable">{{ 'Loading'|translate }}</span>
   </div>
 </div>
 <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-  {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+  {{  ResponseFromBackend.Error.Message | FirstLetterUpperPipe }}</ngb-alert>
 <form #SessionEditForm="ngForm" *ngIf="SessionToEdit">
   <div class="form-group">
     <div style="margin: 3px;">
-      <h2 *ngIf="editmode">Edit</h2>
-      <h2 *ngIf="!editmode">Create</h2>
+      <h2 *ngIf="editmode">{{ 'Edit'|translate }}</h2>
+      <h2 *ngIf="!editmode">{{ 'Create'|translate }}</h2>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ 'Email'|translate }}</label>
         <input type="email" id="email" placeholder="exampe@example.com" class="form-control mb-1" name="sessionemail"
           [ngModel]="SessionToEdit.Email" [disabled]="true" required email>
       </div>
 
       <div class="form-group">
-        <label for="name">IP</label>
+        <label for="name">{{ 'IPv4'|translate }}</label>
         <input type="text" id="ip" placeholder="example" class="form-control mb-1" name="sessionip"
           [ngModel]="SessionToEdit.IP" [disabled]="true" required>
       </div>
 
       <div class="form-group">
-        <label for="name">User agent</label>
+        <label for="name">{{ 'UserAgent'|translate }}</label>
         <input type="text" id="useragent" placeholder="example" class="form-control mb-1" name="sessionuseragent"
           [ngModel]="SessionToEdit.UserAgent" [disabled]="true" required>
       </div>
 
       <div class="form-group">
-        <label for="roles">Select role:</label>
+        <label for="roles">{{ 'SelectRole'|translate }}</label>
         <select class="form-control" name="sessionrole" id="roles" [ngModel]="SessionToEdit.Role" [disabled]="true" required>
           <option value="guest_role_read_only">Guest</option>
           <option value="admin_role_CRUD">Admin</option>
@@ -38,30 +38,30 @@
       </div>
 
       <div class="form-group">
-        <label for="name">Token</label>
+        <label for="name">{{ 'Token'|translate }}</label>
         <input type="text" id="token" placeholder="example" class="form-control mb-1" name="sessiontoken"
           [ngModel]="SessionToEdit.Token" [disabled]="true" required>
       </div>
 
       <div class="form-group">
-        <label for="name">Session</label>
+        <label for="name">{{ 'Session'|translate }}</label>
         <input type="text" id="session" placeholder="example" class="form-control mb-1" name="sessionsession"
           [ngModel]="SessionToEdit.Session" [disabled]="true" required>
       </div>
 
       <div class="form-group">
-        <label for="name">Issued</label>
+        <label for="name">{{ 'Issued'|translate }}</label>
         <input type="text" id="issued" placeholder="example" class="form-control mb-1" name="sessionissued"
           [ngModel]="SessionToEdit.IssDate" [disabled]="true" required>
       </div>
 
       <div class="form-group">
-        <label for="name">Expires</label>
+        <label for="name">{{ 'Expires'|translate }}</label>
         <input type="text" id="expires" placeholder="example" class="form-control mb-1" name="sessionexpires"
           [ngModel]="SessionToEdit.ExpDate" [disabled]="true" required>
       </div>
 
-      <button class="btn btn-outline-danger" type="button" routerLink=".." style="margin-left: 3px;">Cancel</button>
+      <button class="btn btn-outline-danger" type="button" routerLink=".." style="margin-left: 3px;">{{ 'Cancel'|translate }}</button>
 
     </div>
   </div>

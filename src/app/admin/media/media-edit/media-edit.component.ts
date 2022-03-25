@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { ErrorResponse } from 'src/app/shared/shared.model';
+import { environment } from 'src/environments/environment';
 import { FiLe } from '../media.model';
 import { MediaService } from '../media.service';
 
@@ -34,8 +38,15 @@ export class MediaEditComponent implements OnInit, OnDestroy {
   constructor(
     private MediaServ: MediaService,
     private activatedroute: ActivatedRoute,
-    private datastore: DataStorageService
-  ) { }
+    private datastore: DataStorageService,
+    public translate: TranslateService,
+    private auth: AuthService,
+    private sitetitle: Title
+
+  ) {
+    translate.addLangs(environment.SupportedLangs);
+    translate.setDefaultLang(environment.DefaultLocale);
+  }
 
   ngOnDestroy(): void {
 
@@ -46,6 +57,14 @@ export class MediaEditComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit(): void {
+
+    const ulang = localStorage.getItem("userLang")
+
+    if (ulang !== null) {
+      this.SwitchLanguage(ulang)
+    } else {
+      this.SwitchLanguage(environment.DefaultLocale)
+    }
 
     this.activatedroute.params.subscribe(
       (params: Params) => {
@@ -65,9 +84,15 @@ export class MediaEditComponent implements OnInit, OnDestroy {
 
         this.ShowMessage = true;
         this.ResponseFromBackend = response;
-        setTimeout(() => this.ShowMessage = false, 5000);
+        setTimeout(() => {
+          this.ShowMessage = false;
+          if (response.Error.Code === 401 || response.Error.Code === 403 || response.Error.Code === 407) {
+            this.auth.SignOut();
+          }
+        }, environment.MessageTimeout);
 
         if (response) {
+          
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';
@@ -104,6 +129,23 @@ export class MediaEditComponent implements OnInit, OnDestroy {
     this.CurPercentStyle = 'width: 0%';
     const FileToUpload = event.target.files[0] as File;
     this.datastore.FileUpload(FileToUpload);
+  }
+
+
+  SwitchLanguage(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem("userLang", lang)
+
+    this.translate.get("WebsiteTitleText", lang).subscribe(
+      {
+        next: (titletext: string) => {
+          this.sitetitle.setTitle(titletext);
+        },
+        error: error => {
+          console.log(error);
+        }
+      }
+    );
   }
 
 }

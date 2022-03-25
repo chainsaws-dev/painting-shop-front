@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgbAlertModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AdminComponent } from './admin.component';
 
@@ -18,6 +18,11 @@ import { AdminRoutingModule } from './admin-routing.module';
 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -27,15 +32,29 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MediaListComponent,
     SessionsListComponent,
     SessionsEditComponent,
-    MediaEditComponent
+    MediaEditComponent,
+    
   ],
   imports: [
+    SharedModule,
     CommonModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
     FormsModule,
     NgbAlertModule,
     NgbPaginationModule,
+    NgbTooltipModule,
     AdminRoutingModule,
     MatSlideToggleModule
   ]
 })
 export class AdminModule { }
+
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http)
+}

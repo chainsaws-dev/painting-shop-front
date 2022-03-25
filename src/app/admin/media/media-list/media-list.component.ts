@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { ErrorResponse } from 'src/app/shared/shared.model';
 import { environment } from 'src/environments/environment';
@@ -35,7 +38,13 @@ export class MediaListComponent implements OnInit, OnDestroy {
     private DataServ: DataStorageService,
     public MediaServ: MediaService,
     private router: Router,
-  ) { }
+    private auth: AuthService,
+    public translate: TranslateService,
+    private sitetitle: Title
+  ) {
+    translate.addLangs(environment.SupportedLangs);
+    translate.setDefaultLang(environment.DefaultLocale);
+  }
 
   ngOnDestroy(): void {
     this.RecivedErrorSub.unsubscribe();
@@ -45,6 +54,14 @@ export class MediaListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const ulang = localStorage.getItem("userLang")
+
+    if (ulang !== null) {
+      this.SwitchLanguage(ulang)
+    } else {
+      this.SwitchLanguage(environment.DefaultLocale)
+    }
+
     this.mePageSize = environment.MediaListPageSize;
 
     this.RecivedErrorSub = this.DataServ.RecivedError.subscribe(
@@ -52,9 +69,15 @@ export class MediaListComponent implements OnInit, OnDestroy {
 
         this.ShowMessage = true;
         this.ResponseFromBackend = response;
-        setTimeout(() => this.ShowMessage = false, 5000);
+        setTimeout(() => {
+          this.ShowMessage = false;
+          if (response.Error.Code === 401 || response.Error.Code === 403 || response.Error.Code === 407) {
+            this.auth.SignOut();
+          }
+        }, environment.MessageTimeout);
 
         if (response) {
+          
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';
@@ -71,7 +94,7 @@ export class MediaListComponent implements OnInit, OnDestroy {
       this.meCurrentPage = +params.pn;
 
       this.FetchOnInint = this.DataServ.FetchFilesList(this.meCurrentPage, environment.MediaListPageSize).subscribe(
-       (value) => {
+        (value) => {
           this.Files = this.MediaServ.GetFiles();
           this.meCollectionSize = this.MediaServ.Total;
         },
@@ -102,6 +125,22 @@ export class MediaListComponent implements OnInit, OnDestroy {
 
     this.Files = this.MediaServ.GetFiles();
 
+  }
+
+  SwitchLanguage(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem("userLang", lang)
+
+    this.translate.get("WebsiteTitleText", lang).subscribe(
+      {
+        next: (titletext: string) => {
+          this.sitetitle.setTitle(titletext);
+        },
+        error: error => {
+          console.log(error);
+        }
+      }
+    );
   }
 
 }

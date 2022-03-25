@@ -6,6 +6,7 @@ export interface AuthResponseData {
   ExpirationDate?: string;
   Role: string;
   SecondFactor: TOTP;
+  Locale: string;
 }
 
 export interface TOTP {

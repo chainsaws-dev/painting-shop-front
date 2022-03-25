@@ -59,7 +59,7 @@ export class UsersService {
 
   AddNewUser(NewUser: User) {
 
-    const NewUserToAdd = new User(NewUser.Role, NewUser.Email, NewUser.Phone, NewUser.Name);
+    const NewUserToAdd = new User(NewUser.Role, NewUser.Email, NewUser.Phone, NewUser.Name, NewUser.Lang);
 
     if (this.Users.length < environment.AdminUserListPageSize) {
       this.Users.push(NewUserToAdd);

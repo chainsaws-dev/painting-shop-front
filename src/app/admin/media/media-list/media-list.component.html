@@ -1,10 +1,10 @@
 <div *ngIf="!IsLoading">
   <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-    {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+    {{  ResponseFromBackend.Error.Message | FirstLetterUpperPipe }}</ngb-alert>
   <div class="input-group ml-3">
     <div class="input-group-prepend mt-2">
       <button class="btn btn-outline-primary" [routerLink]="['/admin/media',meCurrentPage,'new']"
-      queryParamsHandling="merge">Add</button>
+      queryParamsHandling="merge">{{'Add'|translate}}</button>
     </div>
   </div>
   <div class="parent-media-box">
@@ -13,8 +13,8 @@
         <img [src]="f.PreviewID" [alt]="f.Filename">
       </a>
       <div class="media-box-overlay">
-        <button class="btn btn-outline-success me-1" type="button" [routerLink]="i">Edit</button>
-        <button class="btn btn-outline-danger" type="button" (click)="OnDeleteFile(f, i)">Delete</button>
+        <button class="btn btn-outline-success me-1" type="button" [routerLink]="i">{{'Edit'|translate}}</button>
+        <button class="btn btn-outline-danger" type="button" (click)="OnDeleteFile(f, i)">{{'Delete'|translate}}</button>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@
 </div>
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="visually-hidden-focusable">Loading...</span>
+    <span class="visually-hidden-focusable">{{ 'Loading'|translate }}</span>
   </div>
 </div>
 <!-- auto fill - чтобы заполняло - auto fit - чтобы растягивало -->

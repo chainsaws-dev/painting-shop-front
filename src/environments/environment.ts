@@ -1,11 +1,14 @@
 // This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
   production: false,
-  NoAuthGuard: true,
-  PageTitle: "Paintings shop",
+  DefaultLocale: 'ru',
+  SupportedLangs: ['ru', 'en'],
+  MessageTimeout: 2000,
+  RecipePageSize: 5,
+  ShoppingListPageSize: 18,
   AdminUserListPageSize: 11,
   SessionsListPageSize: 11,
   MediaListPageSize: 12,
@@ -16,7 +19,10 @@ export const environment = {
   SendEmailResetPassUrl: '/api/v1/PasswordReset/Send',
   SignUpUrl: '/api/v1/Accounts/SignUp',
   SignInUrl: '/api/v1/Accounts/SignIn',
+  GetSetRecipesUrl: '/api/v1/Recipes',
   GetSetFileUrl: '/api/v1/Files',
+  SearchRecipesUrl: '/api/v1/Recipes/Search',
+  GetSetShoppingListUrl: '/api/v1/ShoppingList',
   GetSetUsersUrl: '/api/v1/Users',
   GetSetCurrentUserUrl: '/api/v1/Users/Current',
   GetSetSessionsUrl: '/api/v1/Sessions',

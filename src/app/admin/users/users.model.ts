@@ -4,16 +4,18 @@ export class User {
   public Email: string;
   public Phone: string;
   public Name: string;
+  public Lang: string;
   public IsAdmin: boolean;
   public Confirmed: boolean;
   public SecondFactor: boolean;
   public Disabled: boolean;
-  constructor(Role: string, Email: string, Phone: string, Name: string) {
+  constructor(Role: string, Email: string, Phone: string, Name: string, Lang:string) {
     this.GUID = '';
     this.Role = Role;
     this.Email = Email;
     this.Phone = Phone;
     this.Name = Name;
+    this.Lang = Lang;
     this.IsAdmin = false;
     this.Confirmed = false;
     this.SecondFactor = false;

@@ -1,4 +1,4 @@
-{
+{  
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
@@ -10,6 +10,7 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
+    "allowJs": true,
     "target": "es2015",
     "lib": [
       "es2018",

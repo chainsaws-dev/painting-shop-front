@@ -3,8 +3,10 @@ import { ErrorResponse } from '../shared/shared.model';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
-import { ActivatedRoute, Router, Params, UrlSegment } from '@angular/router';
-import * as url from 'url';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-confirm-email',
@@ -31,7 +33,12 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
   constructor(
     private DataServ: DataStorageService,
     private activeroute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    public translate: TranslateService,
+    private sitetitle: Title) {
+    translate.addLangs(environment.SupportedLangs);
+    translate.setDefaultLang(environment.DefaultLocale);
+  }
 
   ngOnDestroy(): void {
     this.RecivedErrorSub.unsubscribe();
@@ -40,6 +47,14 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    const ulang = localStorage.getItem("userLang")
+
+    if (ulang !== null) {
+      this.SwitchLanguage(ulang)
+    } else {
+      this.SwitchLanguage(environment.DefaultLocale)
+    }
 
     this.DataServiceSub = this.DataServ.LoadingData.subscribe(
       (State) => {
@@ -55,6 +70,7 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
         setTimeout(() => this.ShowMessage = false, 5000);
 
         if (response) {
+          
           switch (response.Error.Code) {
             case 200:
               this.MessageType = 'success';
@@ -81,6 +97,22 @@ export class ConfirmEmailComponent implements OnInit, OnDestroy {
         }
       }
     }
+    );
+  }
+
+  SwitchLanguage(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem("userLang", lang)
+
+    this.translate.get("WebsiteTitleText", lang).subscribe(
+      {
+        next: (titletext: string) => {
+          this.sitetitle.setTitle(titletext);
+        },
+        error: error => {
+          console.log(error);
+        }
+      }
     );
   }
 

@@ -2,13 +2,13 @@
   <div class="col">
 
     <ngb-alert *ngIf="ShowMessage" [type]="MessageType" (close)="ShowMessage = false">
-      {{ ResponseFromBackend.Error.Message }}</ngb-alert>
+      {{  ResponseFromBackend.Error.Message | FirstLetterUpperPipe }}</ngb-alert>
 
     <form class="mt-1 mb-1" #DelSesByEmailForm="ngForm" (ngSubmit)="OnDeleteSessionByEmail(DelSesByEmailForm)">
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="exampe@example.com" class="form-control mb-1" name="useremail" ngModel required email>
-        <button class="btn btn-outline-danger" type="submit">Delete</button>
+        <label for="email">{{'Email'|translate}}</label>
+        <input type="email" id="email" placeholder="example@example.com" class="form-control mb-1" name="useremail" ngModel required email>
+        <button class="btn btn-outline-danger" type="submit">{{'Delete'|translate}}</button>
       </div>
     </form>
 
@@ -22,8 +22,8 @@
         <div class="input-group">
           <p class="p-2 m-0 flex-grow-1" style="place-items: center;"> {{ Session.Email +' '+ Session.IP }}</p>
           <div class="input-group-append">
-            <button class="btn btn-outline-success me-1" type="button" [routerLink]="i">Edit</button>
-            <button class="btn btn-outline-danger" type="button" (click)="OnDeleteSession(Session, i)">Delete</button>
+            <button class="btn btn-outline-success me-1" type="button" [routerLink]="i">{{'Edit'|translate}}</button>
+            <button class="btn btn-outline-danger" type="button" (click)="OnDeleteSession(Session, i)">{{'Delete'|translate}}</button>
           </div>
         </div>
       </li>
@@ -37,6 +37,6 @@
 </div>
 <div class="text-center">
   <div class="spinner-border" role="status" *ngIf="IsLoading">
-    <span class="visually-hidden-focusable">Loading...</span>
+    <span class="visually-hidden-focusable">{{ 'Loading'|translate }}</span>
   </div>
 </div>
